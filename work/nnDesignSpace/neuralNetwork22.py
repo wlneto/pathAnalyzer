@@ -3,24 +3,20 @@
 ################################################################################
 import pickle
 import numpy as np
-# from tabulate import tabulate
 import os
 import tensorflow as tf
-import plotly.graph_objects as go
-# import pprint
-# from tensorflow.keras.preprocessing.text import Tokenizer
-# from tensorflow.keras.preprocessing.sequence import pad_sequences
 ################################################################################
 # Config
 ################################################################################
-epochs = 600
+epochs = 2000
 dataTypeTrainLabel = "Train"
 dataTypeValidationLabel = "Validation"
 dataTypeTestLabel = "Test"
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
-datasetFileName = "dataset.pkl"
+datasetFileName = "../dataset.pkl"
+outputFileName = "neuralNetwork22.pkl"
 ################################################################################
 # Load Dataset
 ################################################################################
@@ -82,16 +78,9 @@ tf.keras.backend.clear_session()
 # Create model
 model = tf.keras.models.Sequential()
 # Add layers
-model.add(tf.keras.layers.Conv2D(64, (3,3), activation='relu', input_shape=featureTensorShape))
-# tf.keras.layers.AveragePooling2D(2, 2),
-model.add(tf.keras.layers.Conv2D(32, (2,2), activation='relu'))
-# model.add(tf.keras.layers.Conv2D(32, (2,2), activation='relu'))
-# model.add(tf.keras.layers.Conv2D(32, (2,2), activation='relu'))
-model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(128, activation='relu'))
-model.add(tf.keras.layers.Dense(64, activation='relu'))
-# model.add(tf.keras.layers.Dense(1024, activation='relu'))
-# model.add(tf.keras.layers.Dense(1024, activation='relu'))
+model.add(tf.keras.layers.Flatten(input_shape=featureTensorShape))
+model.add(tf.keras.layers.Dense(1024, activation='relu'))
+model.add(tf.keras.layers.Dense(1024, activation='relu'))
 model.add(tf.keras.layers.Dense(1))
 ################################################################################
 # Train neural network
@@ -99,8 +88,8 @@ model.add(tf.keras.layers.Dense(1))
 print("Training Neural Network")
 # Print summary
 model.summary()
-lossFunction = 'mean_absolute_error'
-# lossFunction = 'mean_squared_error'
+# lossFunction = 'mean_absolute_error'
+lossFunction = 'mean_squared_error'
 # lossFunction = 'mean_squared_logarithmic_error'
 history = model.compile(optimizer='adam', loss=lossFunction, metrics=[lossFunction])
 # # history.history.keys()
@@ -113,9 +102,6 @@ lossListY = history.history["loss"]
 lossListX = list(range(len(lossListY)))
 valLossListY = history.history["val_loss"]
 valLossListX = list(range(len(valLossListY)))
-fig0 = go.Figure(data=[go.Scatter(x=lossListX,y=lossListY,name="Training Loss"),
-                       go.Scatter(x=valLossListX,y=valLossListY,name="Validation Loss")])
-fig0.show()
 ################################################################################
 # Check validation data
 ################################################################################
@@ -137,6 +123,18 @@ for label, predict in zip(testLabelList, testPredictList):
 		error = error - 1.0
 		testErrorLargerList.append(error)
 	testErrorList.append(error)
-fig1 = go.Figure(data=[go.Scatter(x=testLabelList,y=testPredictList,text=testErrorList,mode="markers",name="Prediction"),go.Scatter(x=testLabelList,y=testLabelList,name="Ideal"),go.Scatter(x=testLabelList,y=1.1*testLabelList),go.Scatter(x=testLabelList,y=0.9*testLabelList)])
-fig1.update_layout(title="Max Error = %f" % max(testErrorList))
-fig1.show()
+################################################################################
+# Export data
+################################################################################
+outDict = {}
+outDict["testPredictList"] = testPredictList
+outDict["testLabelList"] = testLabelList
+outDict["testErrorLargerList"] = testErrorLargerList
+outDict["testErrorSmallerList"] = testErrorSmallerList
+outDict["testErrorList"] = testErrorList
+outDict["lossList"] = lossListY
+outDict["valLossList"] = valLossListY
+# Save dataframe
+with open(outputFileName, 'wb') as f:
+	pickle.dump(outDict, f, pickle.HIGHEST_PROTOCOL)
+f.close()
