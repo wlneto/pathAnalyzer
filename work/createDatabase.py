@@ -10,7 +10,7 @@ import re
 # Config
 ################################################################################
 csvFileDir = "../data"
-cktList = ["ethernet_218"]
+cktList = ["ethernet_218", "ethernet_239", "ethernet_260", "ethernet_281", "ethernet_302", "ethernet_323", "ethernet_344", "ethernet_365", "video_jpeg_615", "video_jpeg_676", "video_jpeg_737"]
 cktNameAndCTRegexp = "(.+)_([0-9]+)"
 cellDrivingStregthRegexpGen = ""
 cellDrivingStregthRegexpMap = "(.+)x([0-9p]+)"
@@ -27,7 +27,7 @@ cellNameRmRegexpListPnR = ["_ASAP7_75t_R"]
 startpointRmRegexpList = ["/.*"]
 endpointRmRegexpList = ["/.*"]
 pathMinSize = 2
-pathMaxSize = 1000
+pathMaxSize = 100000
 databaseFileName = "database.pkl"
 ################################################################################
 # Database setup
@@ -234,16 +234,16 @@ for ckt in cktList:
 	            cellNameRmRegexpList=cellNameRmRegexpListOpt,
 	            pathMinSize=pathMinSize, pathMaxSize=pathMaxSize,
 	            createRow=False, cktName=cktName, pathType="opt")
-	csvPath = csvFileDir+"/"+ckt+csvFileSuffixPnR
-	print("  Reading optimized synthesis file %s" % csvPath)
-	readCktFile(df=df, csvPath=csvPath, targetCT=targetCT, cellDrivingStregthRegexp=cellDrivingStregthRegexpPnR,
-	            startpointRmRegexpList=startpointRmRegexpList, endpointRmRegexpList=endpointRmRegexpList,
-	            cellNameRmRegexpList=cellNameRmRegexpListPnR,
-	            pathMinSize=pathMinSize, pathMaxSize=pathMaxSize,
-	            createRow=False, cktName=cktName, pathType="pnr")
+	# csvPath = csvFileDir+"/"+ckt+csvFileSuffixPnR
+	# print("  Reading optimized synthesis file %s" % csvPath)
+	# readCktFile(df=df, csvPath=csvPath, targetCT=targetCT, cellDrivingStregthRegexp=cellDrivingStregthRegexpPnR,
+	#             startpointRmRegexpList=startpointRmRegexpList, endpointRmRegexpList=endpointRmRegexpList,
+	#             cellNameRmRegexpList=cellNameRmRegexpListPnR,
+	#             pathMinSize=pathMinSize, pathMaxSize=pathMaxSize,
+	#             createRow=False, cktName=cktName, pathType="pnr")
+	# Save dataframe
+	with open(databaseFileName, 'wb') as f:
+		pickle.dump(df, f, pickle.HIGHEST_PROTOCOL)
+	f.close()
 
 # print(tabulate(df, headers='keys', tablefmt='psql'))
-# Save dataframe
-with open(databaseFileName, 'wb') as f:
-	pickle.dump(df, f, pickle.HIGHEST_PROTOCOL)
-f.close()

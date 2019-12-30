@@ -13,14 +13,17 @@ import plotly.graph_objects as go
 ################################################################################
 # Config
 ################################################################################
-epochs = 600
+epochs = 100
 dataTypeTrainLabel = "Train"
 dataTypeValidationLabel = "Validation"
 dataTypeTestLabel = "Test"
+dataTypeUnassignedLabel = "Unassigned"
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
 datasetFileName = "dataset.pkl"
+outlierErrorThreshold = 0.1
+outlierList = []
 ################################################################################
 # Load Dataset
 ################################################################################
@@ -34,6 +37,9 @@ else:
 ################################################################################
 # Prepare data
 ################################################################################
+print("Moving outliars to training set")
+for outlier in outlierList:
+	dataset.loc[outlier, dataTypeKey] = dataTypeTrainLabel
 print("Splitting training, validation and test data")
 trainFeatureList = []
 trainLabelList = []
@@ -51,9 +57,11 @@ validationSetSize = len(validationLabelList)
 print("  Validation set size = %d" % validationSetSize)
 testFeatureList = []
 testLabelList = []
+testIdxList = []
 for datasetIdx, datasetRow in dataset[dataset[dataTypeKey] == dataTypeTestLabel].iterrows():
 	testFeatureList.append(datasetRow[featureTensorKey])
 	testLabelList.append(datasetRow[labelKey])
+	testIdxList.append(datasetIdx)
 testSetSize = len(testLabelList)
 print("  Test set size = %d" % testSetSize)
 print("Preparing Numpy Arrays")
@@ -82,13 +90,18 @@ tf.keras.backend.clear_session()
 # Create model
 model = tf.keras.models.Sequential()
 # Add layers
-model.add(tf.keras.layers.Conv2D(64, (3,3), activation='relu', input_shape=featureTensorShape))
-# tf.keras.layers.AveragePooling2D(2, 2),
-model.add(tf.keras.layers.Conv2D(32, (2,2), activation='relu'))
-# model.add(tf.keras.layers.Conv2D(32, (2,2), activation='relu'))
-# model.add(tf.keras.layers.Conv2D(32, (2,2), activation='relu'))
+model.add(tf.keras.layers.Conv2D(128, (3,3), activation='relu', input_shape=featureTensorShape))
+model.add(tf.keras.layers.Conv2D(128, (2,2), activation='relu'))
+model.add(tf.keras.layers.Conv2D(128, (2,2), activation='relu'))
+model.add(tf.keras.layers.Conv2D(128, (2,2), activation='relu'))
 model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(512, activation='relu'))
+model.add(tf.keras.layers.Dense(512, activation='relu'))
+model.add(tf.keras.layers.Dense(256, activation='relu'))
+model.add(tf.keras.layers.Dense(256, activation='relu'))
 model.add(tf.keras.layers.Dense(128, activation='relu'))
+model.add(tf.keras.layers.Dense(128, activation='relu'))
+model.add(tf.keras.layers.Dense(64, activation='relu'))
 model.add(tf.keras.layers.Dense(64, activation='relu'))
 # model.add(tf.keras.layers.Dense(1024, activation='relu'))
 # model.add(tf.keras.layers.Dense(1024, activation='relu'))
@@ -99,8 +112,8 @@ model.add(tf.keras.layers.Dense(1))
 print("Training Neural Network")
 # Print summary
 model.summary()
-lossFunction = 'mean_absolute_error'
-# lossFunction = 'mean_squared_error'
+# lossFunction = 'mean_absolute_error'
+lossFunction = 'mean_squared_error'
 # lossFunction = 'mean_squared_logarithmic_error'
 history = model.compile(optimizer='adam', loss=lossFunction, metrics=[lossFunction])
 # # history.history.keys()
@@ -140,3 +153,17 @@ for label, predict in zip(testLabelList, testPredictList):
 fig1 = go.Figure(data=[go.Scatter(x=testLabelList,y=testPredictList,text=testErrorList,mode="markers",name="Prediction"),go.Scatter(x=testLabelList,y=testLabelList,name="Ideal"),go.Scatter(x=testLabelList,y=1.1*testLabelList),go.Scatter(x=testLabelList,y=0.9*testLabelList)])
 fig1.update_layout(title="Max Error = %f" % max(testErrorList))
 fig1.show()
+fig2 = go.Figure(data=[go.Histogram(x=testErrorList)])
+fig2.update_layout(title="Error Distribution")
+fig2.show()
+################################################################################
+# Get outliers
+################################################################################
+outlierList = []
+testIdx=0
+for error in testErrorList:
+	if error > outlierErrorThreshold:
+		outlierList.append(testIdxList[testIdx])
+	testIdx = testIdx + 1
+print("Outliers are:")
+print(outlierList)
