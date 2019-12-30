@@ -14,9 +14,9 @@ trainDataPct = 0.6
 validationDataPct = 0.2
 targetCTDivisionFactor = 1000.0
 featureTargetCTKey = "targetCT"
-featurePathKey = "pathMap"
+featurePathKey = "pathGen"
 labelDividendKey = "delayOpt"
-labelDivisorKey = "delayMap"
+labelDivisorKey = "delayGen"
 databaseFileName = "database.pkl"
 datasetFileName = "dataset.pkl"
 ################################################################################
