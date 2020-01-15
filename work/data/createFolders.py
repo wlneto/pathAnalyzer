@@ -10,12 +10,12 @@ from DirFileObj import DirFileObj
 ################################################################################
 # Configuration
 ################################################################################
-synthFileName = "synthesis.tcl"
-placeHolderCktName = "_CKT_NAME_"
-placeHolderCktComb = "_CKT_COMB_"
+synthFileName       = "synthesis.tcl"
+placeHolderCktName  = "_CKT_NAME_"
+placeHolderCktComb  = "_CKT_COMB_"
 placeHolderTargetCT = "_TARGET_CT_"
-stdFlowDirName = "stdFlow"
-hdlDirName = "hdl"
+stdFlowDirName      = "stdFlow"
+hdlDirName          = "hdl"
 cktDict = {
 	"adder" : {
 		"targetCT" : 100,

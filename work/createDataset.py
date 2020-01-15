@@ -2,21 +2,29 @@
 # Libraries
 ################################################################################
 import pickle
-import pandas as pd
+# import pandas as pd
 import os
-import pprint
-from tensorflow.keras.preprocessing.text import Tokenizer
-# from tensorflow.keras.preprocessing.sequence import pad_sequences
+import sys
+sys.path.append(os.path.realpath("../src"))
+from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-trainDataPct = 0.6
-validationDataPct = 0.2
+# -1 for all paths
+numPathsToAdd = 30000
+trainPathCount = 10000
+validationPathCount = 5000
 targetCTDivisionFactor = 1000.0
+fanoutDivisionFactor = 100.0
+# delayDivisionFactor = 100.0
+dataTypeTrainLabel = "Train"
+dataTypeValidationLabel = "Validation"
+dataTypeTestLabel = "Test"
+dataTypeUnassignedLabel = "Unassigned"
 featureTargetCTKey = "targetCT"
+dataTypeKey = "dataType"
 featurePathKey = "pathGen"
-labelDividendKey = "delayOpt"
-labelDivisorKey = "delayGen"
+labelDelayKey = "delayOpt"
 databaseFileName = "database.pkl"
 datasetFileName = "dataset.pkl"
 ################################################################################
@@ -30,12 +38,11 @@ else:
 	raise RuntimeError("ERROR! Couldn't find file %s" % (databaseFileName))
 # print(tabulate(database, headers='keys', tablefmt='psql'))
 ################################################################################
-# Create dataset
-################################################################################
-dataset = pd.DataFrame(columns=["dataType", "databaseIdx", "featureTensor", "label"])
-################################################################################
 # Main program
 ################################################################################
+dataset = PathDataset()
+dataset.add(database, numSamples=10)
+exit()
 # Shuffle database
 print("Shuffling database")
 database = database.sample(frac=1)
@@ -44,40 +51,43 @@ largestPathSize = 0
 numPaths = 0
 for databaseIdx, databaseRow in database.iterrows():
 	# Make sure label data is valid
-	if (isinstance(databaseRow[labelDividendKey], float) or isinstance(databaseRow[labelDividendKey], int)) and (isinstance(databaseRow[labelDivisorKey], float) or isinstance(databaseRow[labelDivisorKey], int)):
+	if (isinstance(databaseRow[labelDelayKey], float) or isinstance(databaseRow[labelDelayKey], int)):
 		datasetPath = databaseRow[featurePathKey]
 		largestPathSize = max(largestPathSize, len(datasetPath))
 		numPaths = numPaths + 1
 print("Found %d paths. Largest path has %d gates" % (numPaths, largestPathSize))
-trainSplit = int(numPaths * trainDataPct)
-validationSplit = trainSplit + int(numPaths * validationDataPct)
-# Collect cell names to cellNameList
-cellNameList = []
-for path in database[featurePathKey].tolist():
-	for cell in path:
-		cellName = cell[0]
-		if cellName not in cellNameList:
-			cellNameList.append(cellName)
-# Tokenize cell names using cellNameList
-# TODO: Group cells by functionality
-tokenizer = Tokenizer(filters='!"#$%&()*+,-./:;<=>?@[\\]^`{|}~\t\n')
-tokenizer.fit_on_texts(cellNameList)
-# Get vocabulary from Tokenizer
-word_index = tokenizer.word_index
-vocab_size=len(list(word_index.keys()))
-print("Vocabulary (size %d) is:" % vocab_size)
-pprint.pprint(word_index)
+# ## Using TOkenizer
+# # Collect cell names to cellNameList
+# cellNameList = []
+# for path in database[featurePathKey].tolist():
+# 	for cell in path:
+# 		cellName = cell[0]
+# 		if cellName not in cellNameList:
+# 			cellNameList.append(cellName)
+# # Tokenize cell names using cellNameList
+# # TODO: Group cells by functionality
+# tokenizer = Tokenizer(filters='!"#$%&()*+,-./:;<=>?@[\\]^`{|}~\t\n')
+# tokenizer.fit_on_texts(cellNameList)
+# # Get vocabulary from Tokenizer
+# word_index = tokenizer.word_index
+# vocab_size=len(list(word_index.keys()))
+# print("Vocabulary (size %d) is:" % vocab_size)
+# pprint.pprint(word_index)
+cellMap = {"not" : 0, "nand2" : 1, "nor2" : 1, "and2" : 2, "or2" : 2, "complex2" : 3, "d_flop" : 4}
 # Add features and labels to dataset
+if numPathsToAdd < 0 or numPathsToAdd > numPaths:
+	numPathsToAdd = numPaths
+print("Adding %d paths to dataset" % numPathsToAdd)
 for databaseIdx, databaseRow in database.iterrows():
-	# print("%d - %s" % (databaseIdx,databaseRow[labelDividendKey]))
+	# print("%d - %s" % (databaseIdx,databaseRow[labelDelayKey]))
 	# Make sure label data is valid
-	if (isinstance(databaseRow[labelDividendKey], float) or isinstance(databaseRow[labelDividendKey], int)) and (isinstance(databaseRow[labelDivisorKey], float) or isinstance(databaseRow[labelDivisorKey], int)):
-		# Collect label
-		label = float(databaseRow[labelDividendKey])/float(databaseRow[labelDivisorKey])
-		# Create tensor
-		featureTensor = []
+	if (isinstance(databaseRow[labelDelayKey], float) or isinstance(databaseRow[labelDelayKey], int)):
 		# Collect targetCT to add to tensors
 		targetCT = float(databaseRow[featureTargetCTKey])/float(targetCTDivisionFactor)
+		# Collect label
+		label = float(databaseRow[labelDelayKey])/float(databaseRow[featureTargetCTKey])
+		# Create tensor
+		featureTensor = []
 		# Iterate through path to format data and add to tensor
 		datasetPath = databaseRow[featurePathKey]
 		for datasetPathCell in datasetPath:
@@ -87,30 +97,47 @@ for databaseIdx, databaseRow in database.iterrows():
 			datasetPathCellFanout = datasetPathCell[3]
 			datasetPathCellLoad = datasetPathCell[4]
 			datasetPathCellTranIn = datasetPathCell[5]
-			datasetPathCellName = tokenizer.texts_to_sequences([datasetPathCellName])[0][0]
-			datasetPathCellName = float(datasetPathCellName)/float(vocab_size)
-			featureTensor.append([targetCT, datasetPathCellName, datasetPathCellDrive, datasetPathCellDirection, datasetPathCellFanout, datasetPathCellLoad])
+			# datasetPathCellName = tokenizer.texts_to_sequences([datasetPathCellName])[0][0]
+			# datasetPathCellName = float(datasetPathCellName)/float(vocab_size)
+			datasetPathCellName = cellMap[datasetPathCellName]
+			datasetPathCellFanout = datasetPathCellFanout / fanoutDivisionFactor
+			# featureTensor.append([targetCT, datasetPathCellName, datasetPathCellDrive, datasetPathCellDirection, datasetPathCellFanout, datasetPathCellLoad])
+			featureTensor.append([targetCT, datasetPathCellName, datasetPathCellDirection, datasetPathCellFanout])
 		# Add padding to tensor
 		for padIdx in range(len(featureTensor),largestPathSize):
-			featureTensor.append([0, 0, 0, 0, 0, 0])
+			featureTensor.append(len(featureTensor[0])*[0])
 		# Add new row to dataset
 		datasetIdx = dataset.index
 		if (len(datasetIdx) == 0):
 			datasetIdx = 0
 		else:
 			datasetIdx = max(dataset.index) + 1
-		# Set data type
-		if datasetIdx < trainSplit:
-			dataType="Train"
-		elif datasetIdx < validationSplit:
-			dataType="Validation"
-		else:
-			dataType="Test"
 		# Add to dataset
-		dataset.loc[datasetIdx] = [dataType, databaseIdx, featureTensor, label]
+		dataset.loc[datasetIdx] = [dataTypeUnassignedLabel, databaseIdx, featureTensor, label]
+		if datasetIdx % 1000 == 0:
+			print("Current path # is %d of %d" % (datasetIdx,numPathsToAdd))
+		# Exit when added enough paths
+		if datasetIdx >= numPathsToAdd-1:
+			break
+	# else:
+	# 	print("Ignoring path with no label: %d - %s" % (databaseIdx,databaseRow[labelDelayKey]))
+# Label paths to split dataset
+# trainPathCount = int(numPathsToAdd * trainDataPct)
+# validationPathCount = int(numPathsToAdd * validationDataPct)
+# testPathCount = int(numPathsToAdd * testDataPct)
+trainSplit = trainPathCount
+validationSplit = trainSplit + validationPathCount
+testPathCount = numPathsToAdd - trainPathCount - validationPathCount
+print("Labeling paths %d Training, %d Validation and %d Test" % (trainPathCount, validationPathCount, testPathCount))
+for datasetIdx, datasetRow in dataset.iterrows():
+	# Set data type
+	if datasetIdx < trainSplit:
+		dataType=dataTypeTrainLabel
+	elif datasetIdx < validationSplit:
+		dataType=dataTypeValidationLabel
 	else:
-		print("Ignoring path with no label: %d - %s" % (databaseIdx,databaseRow[labelDividendKey]))
-
+		dataType=dataTypeTestLabel
+	dataset.at[datasetIdx, dataTypeKey] = dataType
 # Save dataframe
 with open(datasetFileName, 'wb') as f:
 	pickle.dump(dataset, f, pickle.HIGHEST_PROTOCOL)
