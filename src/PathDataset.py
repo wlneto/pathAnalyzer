@@ -235,12 +235,3 @@ class PathDataset(object):
 				dataType=PathDataset.unassignedDataLabel
 			self.dataset.at[datasetIdx, PathDataset.dataTypeKey] = dataType
 
-	## Plots the relation between tensor values and labels
-	#
-	# \param self Instance of PathDataset class.
-	def plotTensorRel(self):
-		targetCTList = []
-		pathCellNameList = []
-		pathCellDirection, pathCellFanout, pathCellLoad
-		# Iterate through dataset to assign
-		for datasetIdx, datasetRow in self.dataset.iterrows():
