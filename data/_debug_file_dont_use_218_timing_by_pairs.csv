@@ -1,0 +1,56 @@
+Path 0,lo1218_reg/clk,lo0934_reg/d,146
+F,unmapped_d_flop,17,11.9,71,0
+F,unmapped_complex2,2,1.4,9,0
+F,unmapped_or2,3,2.1,11,0
+F,unmapped_complex2,2,1.4,9,0
+R,unmapped_complex2,7,4.9,16,0
+F,unmapped_complex2,6,4.2,15,0
+F,unmapped_complex2,1,0.7,7,0
+R,unmapped_nand2,1,0.7,7,0
+R,unmapped_d_flop,1,-,0,-
+Path 0,lo1226_reg/clk,lo0660_reg/d,155
+R,unmapped_d_flop,7,4.9,64,0
+R,unmapped_or2,1,0.7,7,0
+R,unmapped_or2,1,0.7,7,0
+R,unmapped_or2,1,0.7,7,0
+R,unmapped_or2,3,2.1,11,0
+R,unmapped_or2,4,2.8,13,0
+R,unmapped_or2,2,1.4,9,0
+R,unmapped_or2,1,0.7,7,0
+F,unmapped_nand2,2,1.4,9,0
+F,unmapped_or2,1,0.7,7,0
+F,unmapped_complex2,1,0.7,7,0
+R,unmapped_nand2,1,0.7,7,0
+R,unmapped_d_flop,1,-,0,-
+Path 0,lo1242_reg/clk,lo0811_reg/d,120
+R,unmapped_d_flop,6,4.2,63,0
+F,unmapped_nand2,3,2.1,11,0
+R,unmapped_nand2,3,2.1,11,0
+F,unmapped_nand2,1,0.7,7,0
+R,unmapped_complex2,32,4.2,21,0
+R,unmapped_or2,1,0.7,7,0
+R,unmapped_d_flop,1,-,0,-
+Path 0,lo1218_reg/clk,lo0933_reg/d,146
+F,unmapped_d_flop,17,11.9,71,0
+F,unmapped_complex2,2,1.4,9,0
+F,unmapped_or2,3,2.1,11,0
+F,unmapped_complex2,2,1.4,9,0
+R,unmapped_complex2,7,4.9,16,0
+F,unmapped_complex2,6,4.2,15,0
+F,unmapped_complex2,1,0.7,7,0
+R,unmapped_nand2,1,0.7,7,0
+R,unmapped_d_flop,1,-,0,-
+Path 0,lo1224_reg/clk,lo0814_reg/d,163
+R,unmapped_d_flop,10,7.0,67,0
+R,unmapped_or2,1,0.7,7,0
+F,unmapped_nand2,1,0.7,7,0
+R,unmapped_nand2,1,0.7,7,0
+R,unmapped_or2,1,0.7,7,0
+R,unmapped_or2,1,0.7,7,0
+R,unmapped_or2,2,1.4,9,0
+F,unmapped_complex2,10,7.0,19,0
+F,unmapped_or2,4,2.8,13,0
+F,unmapped_or2,1,0.7,7,0
+R,unmapped_complex2,1,0.7,7,0
+R,unmapped_complex2,1,0.7,7,0
+R,unmapped_d_flop,1,-,0,-
