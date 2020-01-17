@@ -11,9 +11,8 @@ from PathDatabase import PathDatabase
 # Config
 ################################################################################
 csvFileDir = "../data"
-# cktList = ["ethernet_218", "ethernet_239", "ethernet_260", "ethernet_281", "ethernet_302", "ethernet_323", "ethernet_344", "ethernet_365", "video_jpeg_615", "video_jpeg_676", "video_jpeg_737"]
-# cktList = ["ethernet_218"]
-cktList = ["ethernet_218", "ethernet_239", "ethernet_260", "ethernet_281", "ethernet_302", "ethernet_323", "ethernet_344", "ethernet_365"]
+cktList = ["_debug_file_dont_use_218"]
+# cktList = ["ethernet_218", "ethernet_239", "ethernet_260", "ethernet_281", "ethernet_302", "ethernet_323", "ethernet_344", "ethernet_365"]
 cktNameAndCTRegexp = "(.+)_([0-9]+)"
 cellDrivingStregthRegexpGen = ""
 cellDrivingStregthRegexpMap = "(.+)x([0-9p]+)"
@@ -41,6 +40,8 @@ for ckt in cktList:
 	if cktNameAndCT:
 		cktName = cktNameAndCT.group(1)
 		targetCT = float(cktNameAndCT.group(2))
+	else:
+		raise RuntimeError("Reading ckt %s" % (ckt))
 	print("################################################################################")
 	print("Reading circuit %s with target cycle time %s" % (cktName, str(targetCT)))
 	print("################################################################################")
@@ -60,23 +61,23 @@ for ckt in cktList:
 	with open(databaseFileName, 'wb') as f:
 		pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
 	f.close()
-	# # Syn map data
-	# csvPath = csvFileDir+"/"+ckt+csvFileSuffixMap
-	# print("## Reading mapped synthesis file %s" % csvPath)
-	# pathDatabase.readCktFile(csvPath=csvPath,
-	#                          cktName=cktName,
-	#                          targetCT=targetCT,
-	#                          pathType=pathDatabase.synMapPathTypeLabel,
-	#                          pathMinSize=pathMinSize,
-	#                          pathMaxSize=pathMaxSize,
-	#                          cellDrivingStregthRegexp=cellDrivingStregthRegexpMap,
-	#                          startpointRmRegexpList=startpointRmRegexpList,
-	#                          endpointRmRegexpList=endpointRmRegexpList,
-	#                          cellNameRmRegexpList=cellNameRmRegexpListMap)
-	# # Save dataframe
-	# with open(databaseFileName, 'wb') as f:
-	# 	pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
-	# f.close()
+	# Syn map data
+	csvPath = csvFileDir+"/"+ckt+csvFileSuffixMap
+	print("## Reading mapped synthesis file %s" % csvPath)
+	pathDatabase.readCktFile(csvPath=csvPath,
+	                         cktName=cktName,
+	                         targetCT=targetCT,
+	                         pathType=pathDatabase.synMapPathTypeLabel,
+	                         pathMinSize=pathMinSize,
+	                         pathMaxSize=pathMaxSize,
+	                         cellDrivingStregthRegexp=cellDrivingStregthRegexpMap,
+	                         startpointRmRegexpList=startpointRmRegexpList,
+	                         endpointRmRegexpList=endpointRmRegexpList,
+	                         cellNameRmRegexpList=cellNameRmRegexpListMap)
+	# Save dataframe
+	with open(databaseFileName, 'wb') as f:
+		pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
+	f.close()
 	# Syn Opt Data
 	csvPath = csvFileDir+"/"+ckt+csvFileSuffixOpt
 	print("## Reading optimized synthesis file %s" % csvPath)
@@ -112,4 +113,4 @@ for ckt in cktList:
 	# 	pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
 	# f.close()
 
-# print(tabulate(df, headers='keys', tablefmt='psql'))
+# print(pathDatabase.tabulate())
