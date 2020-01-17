@@ -11,8 +11,12 @@ from PathDatabase import PathDatabase
 # Config
 ################################################################################
 csvFileDir = "../data"
-cktList = ["_debug_file_dont_use_218"]
-# cktList = ["ethernet_218", "ethernet_239", "ethernet_260", "ethernet_281", "ethernet_302", "ethernet_323", "ethernet_344", "ethernet_365"]
+# cktList = ["_debug_file_dont_use_218"]
+cktList = ["ethernet_218", "ethernet_239", "ethernet_260", "ethernet_281", "ethernet_302", "ethernet_323", "ethernet_344", "ethernet_365"]
+collectSynGen = True
+collectSynMap = True
+collectSynOpt = True
+collectPnR = False
 cktNameAndCTRegexp = "(.+)_([0-9]+)"
 cellDrivingStregthRegexpGen = ""
 cellDrivingStregthRegexpMap = "(.+)x([0-9p]+)"
@@ -30,7 +34,7 @@ startpointRmRegexpList = ["/.*"]
 endpointRmRegexpList = ["/.*"]
 pathMinSize = 2
 pathMaxSize = 100000
-databaseFileName = "pathDatabase.pkl"
+databaseFileName = "pathDatabaseEthernet.pkl"
 ################################################################################
 # Main program
 ################################################################################
@@ -45,72 +49,77 @@ for ckt in cktList:
 	print("################################################################################")
 	print("Reading circuit %s with target cycle time %s" % (cktName, str(targetCT)))
 	print("################################################################################")
-	csvPath = csvFileDir+"/"+ckt+csvFileSuffixGen
-	print("## Reading generic synthesis file %s" % csvPath)
-	pathDatabase.readCktFile(csvPath=csvPath,
-	                         cktName=cktName,
-	                         targetCT=targetCT,
-	                         pathType=pathDatabase.synGenPathTypeLabel,
-	                         pathMinSize=pathMinSize,
-	                         pathMaxSize=pathMaxSize,
-	                         cellDrivingStregthRegexp=cellDrivingStregthRegexpGen,
-	                         startpointRmRegexpList=startpointRmRegexpList,
-	                         endpointRmRegexpList=endpointRmRegexpList,
-	                         cellNameRmRegexpList=cellNameRmRegexpListGen)
-	# Save dataframe
-	with open(databaseFileName, 'wb') as f:
-		pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
-	f.close()
+	# syn Gen data
+	if collectSynGen:
+		csvPath = csvFileDir+"/"+ckt+csvFileSuffixGen
+		print("## Reading generic synthesis file %s" % csvPath)
+		pathDatabase.readCktFile(csvPath=csvPath,
+		                         cktName=cktName,
+		                         targetCT=targetCT,
+		                         pathType=pathDatabase.synGenPathTypeLabel,
+		                         pathMinSize=pathMinSize,
+		                         pathMaxSize=pathMaxSize,
+		                         cellDrivingStregthRegexp=cellDrivingStregthRegexpGen,
+		                         startpointRmRegexpList=startpointRmRegexpList,
+		                         endpointRmRegexpList=endpointRmRegexpList,
+		                         cellNameRmRegexpList=cellNameRmRegexpListGen)
+		# Save dataframe
+		with open(databaseFileName, 'wb') as f:
+			pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
+		f.close()
 	# Syn map data
-	csvPath = csvFileDir+"/"+ckt+csvFileSuffixMap
-	print("## Reading mapped synthesis file %s" % csvPath)
-	pathDatabase.readCktFile(csvPath=csvPath,
-	                         cktName=cktName,
-	                         targetCT=targetCT,
-	                         pathType=pathDatabase.synMapPathTypeLabel,
-	                         pathMinSize=pathMinSize,
-	                         pathMaxSize=pathMaxSize,
-	                         cellDrivingStregthRegexp=cellDrivingStregthRegexpMap,
-	                         startpointRmRegexpList=startpointRmRegexpList,
-	                         endpointRmRegexpList=endpointRmRegexpList,
-	                         cellNameRmRegexpList=cellNameRmRegexpListMap)
-	# Save dataframe
-	with open(databaseFileName, 'wb') as f:
-		pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
-	f.close()
+	if collectSynMap:
+		csvPath = csvFileDir+"/"+ckt+csvFileSuffixMap
+		print("## Reading mapped synthesis file %s" % csvPath)
+		pathDatabase.readCktFile(csvPath=csvPath,
+		                         cktName=cktName,
+		                         targetCT=targetCT,
+		                         pathType=pathDatabase.synMapPathTypeLabel,
+		                         pathMinSize=pathMinSize,
+		                         pathMaxSize=pathMaxSize,
+		                         cellDrivingStregthRegexp=cellDrivingStregthRegexpMap,
+		                         startpointRmRegexpList=startpointRmRegexpList,
+		                         endpointRmRegexpList=endpointRmRegexpList,
+		                         cellNameRmRegexpList=cellNameRmRegexpListMap)
+		# Save dataframe
+		with open(databaseFileName, 'wb') as f:
+			pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
+		f.close()
 	# Syn Opt Data
-	csvPath = csvFileDir+"/"+ckt+csvFileSuffixOpt
-	print("## Reading optimized synthesis file %s" % csvPath)
-	pathDatabase.readCktFile(csvPath=csvPath,
-	                         cktName=cktName,
-	                         targetCT=targetCT,
-	                         pathType=pathDatabase.synOptPathTypeLabel,
-	                         pathMinSize=pathMinSize,
-	                         pathMaxSize=pathMaxSize,
-	                         cellDrivingStregthRegexp=cellDrivingStregthRegexpOpt,
-	                         startpointRmRegexpList=startpointRmRegexpList,
-	                         endpointRmRegexpList=endpointRmRegexpList,
-	                         cellNameRmRegexpList=cellNameRmRegexpListOpt)
-	# Save dataframe
-	with open(databaseFileName, 'wb') as f:
-		pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
-	f.close()
-	# # Place and Route data
-	# csvPath = csvFileDir+"/"+ckt+csvFileSuffixPnR
-	# print("## Reading optimized synthesis file %s" % csvPath)
-	# pathDatabase.readCktFile(csvPath=csvPath,
-	#                          cktName=cktName,
-	#                          targetCT=targetCT,
-	#                          pathType=pathDatabase.placeAndRoutePathTypeLabel,
-	#                          pathMinSize=pathMinSize,
-	#                          pathMaxSize=pathMaxSize,
-	#                          cellDrivingStregthRegexp=cellDrivingStregthRegexpPnR,
-	#                          startpointRmRegexpList=startpointRmRegexpList,
-	#                          endpointRmRegexpList=endpointRmRegexpList,
-	#                          cellNameRmRegexpList=cellNameRmRegexpListPnR)
-	# # Save dataframe
-	# with open(databaseFileName, 'wb') as f:
-	# 	pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
-	# f.close()
+	if collectSynOpt:
+		csvPath = csvFileDir+"/"+ckt+csvFileSuffixOpt
+		print("## Reading optimized synthesis file %s" % csvPath)
+		pathDatabase.readCktFile(csvPath=csvPath,
+		                         cktName=cktName,
+		                         targetCT=targetCT,
+		                         pathType=pathDatabase.synOptPathTypeLabel,
+		                         pathMinSize=pathMinSize,
+		                         pathMaxSize=pathMaxSize,
+		                         cellDrivingStregthRegexp=cellDrivingStregthRegexpOpt,
+		                         startpointRmRegexpList=startpointRmRegexpList,
+		                         endpointRmRegexpList=endpointRmRegexpList,
+		                         cellNameRmRegexpList=cellNameRmRegexpListOpt)
+		# Save dataframe
+		with open(databaseFileName, 'wb') as f:
+			pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
+		f.close()
+	# Place and Route data
+	if collectPnR:
+		csvPath = csvFileDir+"/"+ckt+csvFileSuffixPnR
+		print("## Reading optimized synthesis file %s" % csvPath)
+		pathDatabase.readCktFile(csvPath=csvPath,
+		                         cktName=cktName,
+		                         targetCT=targetCT,
+		                         pathType=pathDatabase.placeAndRoutePathTypeLabel,
+		                         pathMinSize=pathMinSize,
+		                         pathMaxSize=pathMaxSize,
+		                         cellDrivingStregthRegexp=cellDrivingStregthRegexpPnR,
+		                         startpointRmRegexpList=startpointRmRegexpList,
+		                         endpointRmRegexpList=endpointRmRegexpList,
+		                         cellNameRmRegexpList=cellNameRmRegexpListPnR)
+		# Save dataframe
+		with open(databaseFileName, 'wb') as f:
+			pickle.dump(pathDatabase, f, pickle.HIGHEST_PROTOCOL)
+		f.close()
 
 # print(pathDatabase.tabulate())
