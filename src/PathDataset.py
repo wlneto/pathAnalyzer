@@ -13,6 +13,8 @@ import gc
 import pandas as pd
 from tabulate import tabulate
 from PathDatabase import PathDatabase
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 class PathDataset(object):
 	# Keys
@@ -235,3 +237,43 @@ class PathDataset(object):
 				dataType=PathDataset.unassignedDataLabel
 			self.dataset.at[datasetIdx, PathDataset.dataTypeKey] = dataType
 
+	## Plots the relation between tensor values and labels
+	#
+	# \param self Instance of PathDataset class.
+	def plotTensorToFeature(self):
+		# Initialize control variables
+		# maxCT = 0
+		# maxCell = 0
+		maxFO = 0
+		maxLoad = 0
+		# Intialize data structures to hold info for analysis
+		labelList = []
+		totalFOList = []
+		totalLoadList = []
+		textList = []
+		# Iterate through dataset to assign
+		for datasetIdx, datasetRow in self.dataset.iterrows():
+			labelList.append(float(datasetRow[PathDataset.labelKey]))
+			startpoint = datasetRow[PathDataset.startpointKey]
+			endpoint = datasetRow[PathDataset.endpointKey]
+			textList.append(startpoint+"->"+endpoint)
+			featureTensor = datasetRow[PathDataset.featureTensorKey]
+			totalFO = 0
+			totalLoad = 0
+			for cell in featureTensor:
+				# targetCT = cell[0]
+				# cellName = cell[1]
+				cellFO = float(cell[2])
+				if cellFO > maxFO:
+					maxFO = cellFO
+				totalFO += cellFO
+				cellLoad = float(cell[3])
+				if cellLoad > maxLoad:
+					maxLoad = cellLoad
+				totalLoad += cellLoad
+			totalFOList.append(totalFO)
+			totalLoadList.append(totalLoad)
+		fig = make_subplots(rows=1, cols=4, subplot_titles=("FO vs Label", "Load vs Label"))
+		fig.add_trace(go.Scatter(x=totalFOList,y=labelList,text=textList,mode="markers",name="FO"), row=1, col=1)
+		fig.add_trace(go.Scatter(x=totalLoadList,y=labelList,text=textList,mode="markers",name="Load"), row=1, col=2)
+		fig.show()
