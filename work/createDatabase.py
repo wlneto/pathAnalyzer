@@ -34,7 +34,7 @@ startpointRmRegexpList = ["/.*"]
 endpointRmRegexpList = ["/.*"]
 pathMinSize = 2
 pathMaxSize = 100000
-databaseFileName = "pathDatabaseEthernet.pkl"
+databaseFileName = "pathDatabase.pkl"
 ################################################################################
 # Main program
 ################################################################################
