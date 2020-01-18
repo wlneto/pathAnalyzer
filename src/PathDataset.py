@@ -6,6 +6,8 @@
 # Revision | Author            | Date     | Comment
 #:---------|:------------------|:---------|:----------------
 # 1.0      | Matheus T. M.     | 12/31/19 | Initial version
+# 1.1      | Matheus T. M.     | 01/17/20 | Enhancing add function, adding split and plot functions
+# 1.2      | Matheus T. M.     | 01/18/20 | Updating add function to use new algorithm for creating labels
 #
 
 import gc
@@ -103,14 +105,25 @@ class PathDataset(object):
 
 	## Adds data to the dataset
 	#
+	# Gets a sample of numSample data points from pathDB. Then analize samples
+	# to create tensors modeling paths as:
+	# [cell0, cell1, ..., celln]
+	# Where a cell is modeled as:
+	# [targetCT, cellName, cellDirection, cellFanout, cellLoad]
+	# Next collect labels. These are binary values generating according to how
+	# critical a path is. Paths that have their delay/targetCT bigget than the
+	# threshold defined by critPathTh will have a label=1, others will have a
+	# label=0.
+	#
 	# \param self Instance of PathDataset class.
 	# \param pathDB PathDatabase with the database from which data is to be collected
 	# \param numSamples Optional integer to define the number of samples to be collected. Default is all (0)
+	# \param critPathTh Optional float to define the threshold used to define critical paths. Default is 0.8
 	# \param pathKey Optional string defining the key to use when collecting paths
 	# \param delayKey Optional string defining the key to use when collecting path delays
 	# \param targetCTDivisionFactor Optional float defining division factor to use on target CTs
 	# \param fanoutDivisionFactor Optional float defining division factor to use on fanouts
-	def add(self, pathDB, numSamples=0, pathKey=PathDatabase.synGenPathKey, delayKey=PathDatabase.placeAndRouteDelayKey, targetCTDivisionFactor=1000.0, fanoutDivisionFactor=100.0):
+	def add(self, pathDB, numSamples=0, critPathTh=0.8, pathKey=PathDatabase.synGenPathKey, delayKey=PathDatabase.placeAndRouteDelayKey, targetCTDivisionFactor=1000.0, fanoutDivisionFactor=100.0):
 		# Validate inputs
 		if not isinstance(pathDB, PathDatabase):
 			raise TypeError("pathDB must be a PathDatabase")
@@ -129,8 +142,8 @@ class PathDataset(object):
 		# Default to all
 		if numSamples < 0:
 			numSamples = len(pathDB.database.index.to_list())
-		# Collect sample of database
-		sampleDatabaseDF = pathDB.sample(numSamples)
+		# Collect sample of database (only paths with more than 0 cells)
+		sampleDatabaseDF = pathDB.sample(numSamples=numSamples,)
 		# Iterate through samples and add to dataset
 		for sampleDatabaseDFIdx, sampleDatabaseDFRow in sampleDatabaseDF.iterrows():
 			# Make sure input data is valid
@@ -156,7 +169,10 @@ class PathDataset(object):
 			# Get path
 			path = sampleDatabaseDFRow[pathKey]
 			# Collect label
-			label = float(pathDelay)/float(targetCT)
+			if float(pathDelay)/float(targetCT) > critPathTh:
+				label = 1
+			else:
+				label = 0
 			# Create tensor
 			featureTensor = []
 			# Adjust CT before adding to tensor
@@ -263,11 +279,11 @@ class PathDataset(object):
 			for cell in featureTensor:
 				# targetCT = cell[0]
 				# cellName = cell[1]
-				cellFO = float(cell[2])
+				cellFO = float(cell[3])
 				if cellFO > maxFO:
 					maxFO = cellFO
 				totalFO += cellFO
-				cellLoad = float(cell[3])
+				cellLoad = float(cell[4])
 				if cellLoad > maxLoad:
 					maxLoad = cellLoad
 				totalLoad += cellLoad

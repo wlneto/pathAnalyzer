@@ -11,10 +11,11 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-databaseFileName = "pathDatabase.pkl"
+databaseFileName = "pathDatabaseEthernet.pkl"
 datasetFileName = "pathDataset.pkl"
 # 0 for all paths
-numSamples = 100
+numSamples = 0
+critPathTh = 0.8
 targetCTDivisionFactor = 1000.0
 fanoutDivisionFactor = 100.0
 pathKey = PathDatabase.synGenPathKey
@@ -32,10 +33,17 @@ if os.path.exists(databaseFileName):
 	f.close()
 else:
 	raise RuntimeError("ERROR! Couldn't find file %s" % (databaseFileName))
+# print("Printing database")
+# print(database.tabulate())
 print("Cleaning database")
-database.clean()
-print("Printing database")
-print(database.tabulate())
+removedRows=0
+removedRows+=database.clean(pathKey=PathDatabase.synGenPathKey)
+removedRows+=database.clean(pathKey=PathDatabase.synMapPathKey)
+removedRows+=database.clean(pathKey=PathDatabase.synOptPathKey)
+# removedRows+=database.clean(pathKey=PathDatabase.placeAndRoutePathKey)
+print("Removed %d rows" % removedRows)
+# print("Printing database")
+# print(database.tabulate())
 ################################################################################
 # Main program
 ################################################################################
@@ -50,12 +58,13 @@ for databaseIdx, databaseRow in database.database.iterrows():
 # Create dataset
 dataset = PathDataset(pathSize = largestPathSize)
 print("Adding data to dataset")
-dataset.add(database, numSamples=numSamples, pathKey=pathKey, delayKey=delayKey, targetCTDivisionFactor=targetCTDivisionFactor, fanoutDivisionFactor=fanoutDivisionFactor)
+dataset.add(database, numSamples=numSamples, critPathTh=critPathTh, pathKey=pathKey, delayKey=delayKey, targetCTDivisionFactor=targetCTDivisionFactor, fanoutDivisionFactor=fanoutDivisionFactor)
 print("Splitting dataset")
 dataset.split(trainPct=trainPct, valPct=valPct, testPct=testPct)
-print("Plotting dataset")
-dataset.plotTensorToFeature()
-# print(database.tabulate())
+# print("Plotting dataset")
+# dataset.plotTensorToFeature()
+# print("Printing dataset")
+# print(dataset.tabulate())
 # Save dataframe
 with open(datasetFileName, 'wb') as f:
 	pickle.dump(dataset, f, pickle.HIGHEST_PROTOCOL)

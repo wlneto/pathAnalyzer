@@ -11,8 +11,8 @@ from PathDatabase import PathDatabase
 # Config
 ################################################################################
 csvFileDir = "../data"
-# cktList = ["_debug_file_dont_use_218"]
-cktList = ["ethernet_218", "ethernet_239", "ethernet_260", "ethernet_281", "ethernet_302", "ethernet_323", "ethernet_344", "ethernet_365"]
+cktList = ["_debug_file_dont_use_218"]
+# cktList = ["ethernet_218", "ethernet_239", "ethernet_260", "ethernet_281", "ethernet_302", "ethernet_323", "ethernet_344", "ethernet_365"]
 collectSynGen = True
 collectSynMap = True
 collectSynOpt = True

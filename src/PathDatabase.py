@@ -6,6 +6,8 @@
 # Revision | Author            | Date     | Comment
 #:---------|:------------------|:---------|:----------------
 # 1.0      | Matheus T. M.     | 12/31/19 | Initial version
+# 1.1      | Matheus T. M.     | 01/17/20 | Adding option to clean database
+# 1.2      | Matheus T. M.     | 01/18/20 | Fixing bug in clean method
 #
 
 import gc
@@ -99,6 +101,36 @@ class PathDatabase(object):
 		if numSamples == 0:
 			numSamples = self.len
 		return self.database.sample(numSamples)
+
+	## Removes rows without a certain path
+	#
+	# \param self Instance of PathDatabase class.
+	# \param pathKey Optional String defining the key to use for checking paths. Default is all
+	# \return Dataframe
+	def clean(self, pathKey=""):
+		# Tests input
+		if not isinstance(pathKey, str):
+			raise TypeError("pathKey must be string")
+		# Default is all types of path
+		if pathKey == "":
+			droppedRows = 0
+			droppedRows += self.clean(pathKey=PathDatabase.synGenPathKey)
+			droppedRows += self.clean(pathKey=PathDatabase.synMapPathKey)
+			droppedRows += self.clean(pathKey=PathDatabase.synOptPathKey)
+			droppedRows += self.clean(pathKey=PathDatabase.placeAndRoutePathKey)
+			return droppedRows
+		# Iterates through rows
+		rowsToDrop = []
+		for databaseDFIdx, databaseDFRow in self.database.iterrows():
+			# Paths must have at least one cell
+			if len(databaseDFRow[pathKey]) < 1:
+				rowsToDrop.append(databaseDFIdx)
+		# Removes rows and resets index
+		if len(rowsToDrop) > 0:
+			self.database.drop(self.database.index[rowsToDrop], inplace=True)
+			self.database.reset_index(inplace=True)
+		# Returns number of removed rows
+		return len(rowsToDrop)
 
 	## Gets information of a cell
 	#
@@ -236,14 +268,14 @@ class PathDatabase(object):
 	# \param cktName String with the name of the circuit
 	# \param targetCT Float with the target cycle time of paths in this circuit
 	# \param pathType String with type of path, defined as those available in pathTypeList
-	# \param pathMinSize Optional Integer with minimum size of paths to be added. Default is 0
+	# \param pathMinSize Optional Integer with minimum size of paths to be added. Default is 1
 	# \param pathMaxSize Optional Integer with maximum size of paths to be added. Default is -1 (infinity)
 	# \param cellDrivingStregthRegexp Optional String defining a regexp used to collect the driving strength of cells. If empty (default), no driving strength is collected.
 	# \param startpointRmRegexpList Optional List of Strings defining regexps used to clean startpoint names.
 	# \param endpointRmRegexpList Optional List of Strings defining regexps used to clean endpoint names.
 	# \param cellNameRmRegexpList Optional List of Strings defining regexps used to clean cell names.
 	def readCktFile(self, csvPath, cktName, targetCT,
-	                pathType, pathMinSize=0, pathMaxSize=-1,
+	                pathType, pathMinSize=1, pathMaxSize=-1,
 	                cellDrivingStregthRegexp="",
 	                startpointRmRegexpList=[],
 	                endpointRmRegexpList=[],
