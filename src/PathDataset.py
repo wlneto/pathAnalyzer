@@ -216,6 +216,12 @@ class PathDataset(object):
 		# Default to all
 		if numSamples < 0:
 			numSamples = len(pathDB.database.index.to_list())
+		# Get maximum cell cost
+		maxCellCost = 0.0
+		for cellName in self.cellMap.keys():
+			if self.cellMap[cellName] > maxCellCost:
+				maxCellCost = self.cellMap[cellName]
+		print("Max cell cost is %f" % maxCellCost)
 		# Collect sample of database (only paths with more than 0 cells)
 		sampleDatabaseDF = pathDB.sample(numSamples=numSamples,)
 		# Iterate through samples and add to dataset
@@ -260,7 +266,7 @@ class PathDataset(object):
 				pathCellLoad = pathCell[4]
 				# pathCellTranIn = pathCell[5]
 				pathCellName = self.cellMap[pathCellName]
-				pathCellName = float(pathCellName)/float(len(list(self.cellMap.keys())))
+				pathCellName = float(pathCellName)/float(maxCellCost)
 				pathCellFanout = pathCellFanout / fanoutDivisionFactor
 				# featureTensor.append([targetCT, pathCellName, pathCellDrive, pathCellDirection, pathCellFanout, pathCellLoad])
 				featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellFanout, pathCellLoad])
