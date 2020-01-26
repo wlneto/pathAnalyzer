@@ -8,6 +8,7 @@
 # 1.0      | Matheus T. M.     | 12/31/19 | Initial version
 # 1.1      | Matheus T. M.     | 01/17/20 | Enhancing add function, adding split and plot functions
 # 1.2      | Matheus T. M.     | 01/18/20 | Updating add function to use new algorithm for creating labels
+# 1.3      | Matheus T. M.     | 01/26/20 | Updating methods to support mapped gates data and upgrading gate dictionary
 #
 
 import gc
