@@ -32,7 +32,7 @@ cellNameRmRegexpListOpt = ["_ASAP7_75t_R"]
 cellNameRmRegexpListPnR = ["_ASAP7_75t_R"]
 startpointRmRegexpList = ["/.*"]
 endpointRmRegexpList = ["/.*"]
-pathMinSize = 2
+pathMinSize = 1
 pathMaxSize = 100000
 databaseFileName = "aesDatabase.pkl"
 ################################################################################

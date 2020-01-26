@@ -11,15 +11,15 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-databaseFileName = "pathDatabaseEthernet.pkl"
-datasetFileName = "pathDataset.pkl"
+databaseFileName = "aesDatabase.pkl"
+datasetFileName = "aesDataset.pkl"
 # 0 for all paths
 numSamples = 0
 critPathTh = 0.8
 targetCTDivisionFactor = 1000.0
 fanoutDivisionFactor = 100.0
 pathKey = PathDatabase.synGenPathKey
-delayKey = PathDatabase.synOptDelayKey
+delayKey = PathDatabase.placeAndRouteDelayKey
 trainPct=0.5
 valPct=0.3
 testPct=0.2
@@ -44,6 +44,9 @@ removedRows+=database.clean(pathKey=PathDatabase.synOptPathKey)
 print("Removed %d rows" % removedRows)
 # print("Printing database")
 # print(database.tabulate())
+with open("clean_"+databaseFileName, 'wb') as f:
+	pickle.dump(database, f, pickle.HIGHEST_PROTOCOL)
+f.close()
 ################################################################################
 # Main program
 ################################################################################

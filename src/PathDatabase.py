@@ -153,7 +153,7 @@ class PathDatabase(object):
 		tranOut = None
 		delay = None
 		# Ignore gates w/ 0 delay (endpoints)
-		if not(int(float(cellDataList[4])) == 0 or str(cellDataList[4]) == "-" or cellDataList[2] == ""):
+		if not(int(float(cellDataList[4])) == 0 or str(cellDataList[4]) == "-" or cellDataList[2] == "" or cellDataList[1] == ""):
 			# Rise/Fall
 			if cellDataList[0] == "F" or cellDataList[0] == "v":
 				direction = -1
