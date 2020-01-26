@@ -221,7 +221,7 @@ class PathDataset(object):
 		for cellName in self.cellMap.keys():
 			if self.cellMap[cellName] > maxCellCost:
 				maxCellCost = self.cellMap[cellName]
-		print("Max cell cost is %f" % maxCellCost)
+		# print("Max cell cost is %f" % maxCellCost)
 		# Collect sample of database (only paths with more than 0 cells)
 		sampleDatabaseDF = pathDB.sample(numSamples=numSamples,)
 		# Iterate through samples and add to dataset
