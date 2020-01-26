@@ -8,6 +8,7 @@
 # 1.0      | Matheus T. M.     | 12/31/19 | Initial version
 # 1.1      | Matheus T. M.     | 01/17/20 | Adding option to clean database
 # 1.2      | Matheus T. M.     | 01/18/20 | Fixing bug in clean method
+# 1.3      | Matheus T. M.     | 01/26/20 | Updating methods to support mapped gates data
 #
 
 import gc
@@ -171,6 +172,7 @@ class PathDatabase(object):
 				if nameDrive:
 					cellName = nameDrive.group(1)
 					cellDrive = nameDrive.group(2)
+					cellDrive = re.sub('f', '', cellDrive)
 					cellDrive = float(re.sub('p', '.', cellDrive))
 				# If regexp didnt capture driving strength
 				else:

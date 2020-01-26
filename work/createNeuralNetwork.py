@@ -16,11 +16,11 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-epochs = 200
+epochs = 500
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
-datasetFileName = "pathDataset.pkl"
+datasetFileName = "synGenDataset.pkl"
 outlierErrorThreshold = 0.1
 outlierList = []
 checkpointPath = "neuralNetworkTraining/nn~{epoch:04d}.ckpt"
@@ -94,19 +94,21 @@ tf.keras.backend.clear_session()
 # Create model
 model = tf.keras.models.Sequential()
 # Add layers
-model.add(tf.keras.layers.Dense(8, activation='relu', input_shape=featureTensorShape))
-model.add(tf.keras.layers.Dropout(0.2))
-model.add(tf.keras.layers.Dense(8, activation='relu'))
-model.add(tf.keras.layers.Dropout(0.2))
-model.add(tf.keras.layers.Dense(8, activation='relu'))
-model.add(tf.keras.layers.Dropout(0.2))
-# model.add(tf.keras.layers.Conv2D(8, (2,2), activation='relu', input_shape=featureTensorShape))
-# model.add(tf.keras.layers.Conv2D(32, (2,2), activation='relu'))
-model.add(tf.keras.layers.Flatten())
-# model.add(tf.keras.layers.Dense(128, activation='relu'))
+# model.add(tf.keras.layers.Dense(8, activation='relu', input_shape=featureTensorShape))
 # model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(8, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
+model.add(tf.keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=featureTensorShape))
+model.add(tf.keras.layers.Dropout(0.1))
+model.add(tf.keras.layers.Conv2D(16, (2,2), activation='relu'))
+model.add(tf.keras.layers.Dropout(0.1))
+model.add(tf.keras.layers.Conv2D(16, (1,2), activation='relu'))
+model.add(tf.keras.layers.Dropout(0.1))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(32, activation='relu'))
+model.add(tf.keras.layers.Dropout(0.1))
+model.add(tf.keras.layers.Dense(32, activation='relu'))
+model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(512, activation='relu'))
 # model.add(tf.keras.layers.Dense(8, activation='relu'))
 # model.add(tf.keras.layers.Dense(1024, activation='relu'))
@@ -135,9 +137,9 @@ lossListY = history.history["loss"]
 lossListX = list(range(len(lossListY)))
 valLossListY = history.history["val_loss"]
 valLossListX = list(range(len(valLossListY)))
-# fig0 = go.Figure(data=[go.Scatter(x=lossListX,y=lossListY,name="Training Loss"),
-#                        go.Scatter(x=valLossListX,y=valLossListY,name="Validation Loss")])
-# fig0.show()
+fig0 = go.Figure(data=[go.Scatter(x=lossListX,y=lossListY,name="Training Loss"),
+                       go.Scatter(x=valLossListX,y=valLossListY,name="Validation Loss")])
+fig0.show()
 ################################################################################
 # Check test data
 ################################################################################
@@ -164,6 +166,9 @@ for predict, label in zip(testPredictList, testLabelList):
 print("\tPos\tNeg")
 print("True\t%d\t%d" % (truePositive, trueNegative))
 print("False\t%d\t%d" % (falsePositive, falseNegative))
+total = truePositive + falsePositive + trueNegative + falseNegative
+accuracy = (truePositive + trueNegative) / total
+print("Test accuracy = %f" % accuracy)
 # testPredictList = testPredictList.reshape(len(testPredictList))
 # testLabelList = testLabelList.reshape(len(testLabelList))
 # testErrorList = []

@@ -19,9 +19,9 @@ collectSynOpt = True
 collectPnR = True
 cktNameAndCTRegexp = "(.+)_([0-9]+)"
 cellDrivingStregthRegexpGen = ""
-cellDrivingStregthRegexpMap = "(.+)x([0-9p]+)"
-cellDrivingStregthRegexpOpt = "(.+)x([0-9p]+)"
-cellDrivingStregthRegexpPnR = "(.+)x([0-9p]+)"
+cellDrivingStregthRegexpMap = "(.+)x([0-9pf]+)"
+cellDrivingStregthRegexpOpt = "(.+)x([0-9pf]+)"
+cellDrivingStregthRegexpPnR = "(.+)x([0-9pf]+)"
 csvFileSuffixGen = "_generic_timing_by_pairs.csv"
 csvFileSuffixMap = "_mapped_timing_by_pairs.csv"
 csvFileSuffixOpt = "_opt_timing_by_pairs.csv"
@@ -34,7 +34,7 @@ startpointRmRegexpList = ["/.*"]
 endpointRmRegexpList = ["/.*"]
 pathMinSize = 1
 pathMaxSize = 100000
-databaseFileName = "aesDatabase.pkl"
+databaseFileName = "aesDatabase_new.pkl"
 ################################################################################
 # Main program
 ################################################################################
