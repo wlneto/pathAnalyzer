@@ -11,18 +11,18 @@ from PathDatabase import PathDatabase
 # Config
 ################################################################################
 csvFileDir = "../data"
-cktList = ["_debug_file_dont_use_218"]
-# cktList = ["ethernet_218", "ethernet_239", "ethernet_260", "ethernet_281", "ethernet_302", "ethernet_323", "ethernet_344", "ethernet_365"]
+# cktList = ["_debug_file_dont_use_218"]
+cktList = ["aes_250", "aes_350", "aes_450", "aes_650", "aes_750", "aes_850"]
 collectSynGen = True
 collectSynMap = True
 collectSynOpt = True
-collectPnR = False
+collectPnR = True
 cktNameAndCTRegexp = "(.+)_([0-9]+)"
 cellDrivingStregthRegexpGen = ""
 cellDrivingStregthRegexpMap = "(.+)x([0-9p]+)"
 cellDrivingStregthRegexpOpt = "(.+)x([0-9p]+)"
 cellDrivingStregthRegexpPnR = "(.+)x([0-9p]+)"
-csvFileSuffixGen = "_timing_by_pairs.csv"
+csvFileSuffixGen = "_generic_timing_by_pairs.csv"
 csvFileSuffixMap = "_mapped_timing_by_pairs.csv"
 csvFileSuffixOpt = "_opt_timing_by_pairs.csv"
 csvFileSuffixPnR = "_timing_PR.csv"
@@ -34,7 +34,7 @@ startpointRmRegexpList = ["/.*"]
 endpointRmRegexpList = ["/.*"]
 pathMinSize = 2
 pathMaxSize = 100000
-databaseFileName = "pathDatabase.pkl"
+databaseFileName = "aesDatabase.pkl"
 ################################################################################
 # Main program
 ################################################################################
