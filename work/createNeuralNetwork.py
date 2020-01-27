@@ -16,11 +16,11 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-epochs = 500
+epochs = 50
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
-datasetFileName = "synGenDataset.pkl"
+datasetFileName = "synMapDataset.pkl"
 outlierErrorThreshold = 0.1
 outlierList = []
 checkpointPath = "neuralNetworkTraining/nn~{epoch:04d}.ckpt"
@@ -102,13 +102,15 @@ model.add(tf.keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=featu
 model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Conv2D(16, (2,2), activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Conv2D(16, (1,2), activation='relu'))
-model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(32, activation='relu'))
+model.add(tf.keras.layers.Dense(8, activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Dense(32, activation='relu'))
+model.add(tf.keras.layers.Dense(8, activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
+model.add(tf.keras.layers.Dense(8, activation='relu'))
+model.add(tf.keras.layers.Dropout(0.1))
+# model.add(tf.keras.layers.Dense(32, activation='relu'))
+# model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(512, activation='relu'))
 # model.add(tf.keras.layers.Dense(8, activation='relu'))
 # model.add(tf.keras.layers.Dense(1024, activation='relu'))

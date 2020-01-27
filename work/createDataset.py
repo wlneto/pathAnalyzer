@@ -12,13 +12,13 @@ from PathDataset import PathDataset
 # Config
 ################################################################################
 databaseFileName = "aesDatabase.pkl"
-datasetFileName = "aesDataset.pkl"
+datasetFileName = "synOptDataset.pkl"
 # 0 for all paths
 numSamples = 0
 critPathTh = 0.8
 targetCTDivisionFactor = 1000.0
 fanoutDivisionFactor = 100.0
-pathKey = PathDatabase.synGenPathKey
+pathKey = PathDatabase.synOptPathKey
 delayKey = PathDatabase.placeAndRouteDelayKey
 trainPct=0.5
 valPct=0.3

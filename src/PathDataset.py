@@ -110,6 +110,8 @@ class PathDataset(object):
 		        "BUF" : 26.2378,
 		        "DFFHQ" : 23.2254,
 		        "DFFHQN" : 33.5044,
+		        "HA" : 27.7183,
+		        "FA" : 55.1946,
 		        "HB1" : 21.8976,
 		        "NAND2" : 28.5269,
 		        "NAND3" : 20.4143,
