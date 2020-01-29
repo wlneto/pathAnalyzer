@@ -20,8 +20,10 @@ epochs = 50
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
-trainDatasetFileName = "synGenOnlyLoadTrainDataset.pkl"
-testDatasetFileName = "synGenOnlyLoadTestDataset.pkl"
+# trainDatasetFileName = "synGenOnlyLoadTrainDataset.pkl"
+# testDatasetFileName = "synGenOnlyLoadTestDataset.pkl"
+trainDatasetFileName = "synGenOnlyLoadFullDataset.pkl"
+testDatasetFileName = "synGenOnlyLoadFullDataset.pkl"
 outlierErrorThreshold = 0.1
 outlierList = []
 checkpointPath = "neuralNetworkTraining/nn~{epoch:04d}.ckpt"
@@ -179,12 +181,15 @@ for predict, label in zip(testPredictList, testLabelList):
 			trueNegative += 1
 		else:
 			falseNegative += 1
-print("\tPos\tNeg")
-print("True\t%d\t%d" % (truePositive, trueNegative))
-print("False\t%d\t%d" % (falsePositive, falseNegative))
-total = truePositive + falsePositive + trueNegative + falseNegative
-accuracy = (truePositive + trueNegative) / total
-print("Test accuracy = %f" % accuracy)
+precision = truePositive / (truePositive+falsePositive)
+recall = truePositive / (truePositive+falseNegative)
+f1Score = 2*(precision*recall)/(precision+recall)
+print("\tPred. Neg\tPred. Pos")
+print("Act. Neg\t%d\t%d" % (trueNegative, falsePositive))
+print("Act. Pos\t%d\t%d" % (falseNegative, truePositive))
+print("Precision = %f" % precision)
+print("Recall = %f" % recall)
+print("F1 = %f" % f1Score)
 # testPredictList = testPredictList.reshape(len(testPredictList))
 # testLabelList = testLabelList.reshape(len(testLabelList))
 # testErrorList = []
