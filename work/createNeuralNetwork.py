@@ -20,7 +20,8 @@ epochs = 50
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
-datasetFileName = "synMapDataset.pkl"
+trainDatasetFileName = "synGenOnlyLoadTrainDataset.pkl"
+testDatasetFileName = "synGenOnlyLoadTestDataset.pkl"
 outlierErrorThreshold = 0.1
 outlierList = []
 checkpointPath = "neuralNetworkTraining/nn~{epoch:04d}.ckpt"
@@ -28,41 +29,50 @@ checkpointFreq = 20
 ################################################################################
 # Load Dataset
 ################################################################################
-print("Collecting dataset")
-if os.path.exists(datasetFileName):
-	with open(datasetFileName, 'rb') as f:
-		dataset = pickle.load(f)
+print("Collecting trainDataset")
+if os.path.exists(trainDatasetFileName):
+	with open(trainDatasetFileName, 'rb') as f:
+		trainDataset = pickle.load(f)
 	f.close()
 else:
-	raise RuntimeError("ERROR! Couldn't find file %s" % (datasetFileName))
-# print(tabulate(dataset, headers='keys', tablefmt='psql'))
+	raise RuntimeError("ERROR! Couldn't find file %s" % (trainDatasetFileName))
+# print(tabulate(trainDataset, headers='keys', tablefmt='psql'))
+print("Collecting testDataset")
+if os.path.exists(testDatasetFileName):
+	with open(testDatasetFileName, 'rb') as f:
+		testDataset = pickle.load(f)
+	f.close()
+else:
+	raise RuntimeError("ERROR! Couldn't find file %s" % (testDatasetFileName))
+# print(tabulate(testDataset, headers='keys', tablefmt='psql'))
 ################################################################################
 # Collect data
 ################################################################################
 # print("Moving outliars to training set")
 # for outlier in outlierList:
-# 	dataset.loc[outlier, dataTypeKey] = dataTypeTrainLabel
+# 	trainDataset.loc[outlier, dataTypeKey] = dataTypeTrainLabel
 print("Collecting training, validation and test data")
-datasetDF=dataset.dataset
+trainDatasetDF=trainDataset.dataset
 trainFeatureList = []
 trainLabelList = []
-for datasetIdx, datasetRow in datasetDF[datasetDF[PathDataset.dataTypeKey] == PathDataset.trainDataLabel].iterrows():
-	trainFeatureList.append(datasetRow[PathDataset.featureTensorKey])
-	trainLabelList.append(datasetRow[PathDataset.labelKey])
+for trainDatasetIdx, trainDatasetRow in trainDatasetDF[trainDatasetDF[PathDataset.dataTypeKey] == PathDataset.trainDataLabel].iterrows():
+	trainFeatureList.append(trainDatasetRow[PathDataset.featureTensorKey])
+	trainLabelList.append(trainDatasetRow[PathDataset.labelKey])
 trainSetSize = len(trainLabelList)
 print("  Training set size = %d" % trainSetSize)
 validationFeatureList = []
 validationLabelList = []
-for datasetIdx, datasetRow in datasetDF[datasetDF[PathDataset.dataTypeKey] == PathDataset.validationDataLabel].iterrows():
-	validationFeatureList.append(datasetRow[PathDataset.featureTensorKey])
-	validationLabelList.append(datasetRow[PathDataset.labelKey])
+for trainDatasetIdx, trainDatasetRow in trainDatasetDF[trainDatasetDF[PathDataset.dataTypeKey] == PathDataset.validationDataLabel].iterrows():
+	validationFeatureList.append(trainDatasetRow[PathDataset.featureTensorKey])
+	validationLabelList.append(trainDatasetRow[PathDataset.labelKey])
 validationSetSize = len(validationLabelList)
 print("  Validation set size = %d" % validationSetSize)
+testDatasetDF=testDataset.dataset
 testFeatureList = []
 testLabelList = []
-for datasetIdx, datasetRow in datasetDF[datasetDF[PathDataset.dataTypeKey] == PathDataset.testDataLabel].iterrows():
-	testFeatureList.append(datasetRow[PathDataset.featureTensorKey])
-	testLabelList.append(datasetRow[PathDataset.labelKey])
+for testDatasetIdx, testDatasetRow in testDatasetDF[testDatasetDF[PathDataset.dataTypeKey] == PathDataset.testDataLabel].iterrows():
+	testFeatureList.append(testDatasetRow[PathDataset.featureTensorKey])
+	testLabelList.append(testDatasetRow[PathDataset.labelKey])
 testSetSize = len(testLabelList)
 print("  Test set size = %d" % testSetSize)
 ################################################################################
@@ -100,15 +110,19 @@ model = tf.keras.models.Sequential()
 # model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=featureTensorShape))
 model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Conv2D(16, (2,2), activation='relu'))
+model.add(tf.keras.layers.Conv2D(16, (2,1), activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
+# model.add(tf.keras.layers.Conv2D(16, (2,1), activation='relu'))
+# model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(8, activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Dense(8, activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Dense(8, activation='relu'))
-model.add(tf.keras.layers.Dropout(0.1))
+# model.add(tf.keras.layers.Dense(8, activation='relu'))
+# model.add(tf.keras.layers.Dropout(0.1))
+# model.add(tf.keras.layers.Dense(8, activation='relu'))
+# model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(32, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(512, activation='relu'))

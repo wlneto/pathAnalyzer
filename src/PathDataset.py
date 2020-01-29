@@ -73,80 +73,87 @@ class PathDataset(object):
 	# \return Dictionary mapping cells
 	@property
 	def cellMap(self):
-		return {"not" : 27.0927, 
-		        "nand2" : 28.5269,
-		        "nor2" : 35.9054,
-		        "and2" : 26.7959,
-		        "or2" : 34.5984,
-		        "complex2" : 22.106,
-		        "d_flop" : 23.2254,
-		        "INV" : 27.0927,
-		        "AND2" : 26.7959,
-		        "AND3" : 22.2191,
-		        "AND4" : 26.1565,
-		        "AND5" : 27.3621,
-		        "A2O1A1I" : 24.4815,
-		        "A2O1A1O1I" : 28.0788,
-		        "AO21" : 14.6993,
-		        "AO22" : 19.0622,
-		        "AO221" : 18.6065,
-		        "AO32" : 17.4794,
-		        "AO33" : 19.6495,
-		        "AO331" : 17.3897,
-		        "AO332" : 33.7483,
-		        "AOI21" : 19.9716,
-		        "AOI211" : 25.4058,
-		        "AOI22" : 24.3963,
-		        "AOI221" : 27.1355,
-		        "AOI222" : 32.4737,
-		        "AOI31" : 23.7634,
-		        "AOI311" : 25.1277,
-		        "AOI32" : 29.0516,
-		        "AOI321" : 31.0311,
-		        "AOI322" : 33.2888,
-		        "AOI33" : 30.5441,
-		        "AOI331" : 37.0556,
-		        "AOI332" : 45.632,
-		        "BUF" : 26.2378,
-		        "DFFHQ" : 23.2254,
-		        "DFFHQN" : 33.5044,
-		        "HA" : 27.7183,
-		        "FA" : 55.1946,
-		        "HB1" : 21.8976,
-		        "NAND2" : 28.5269,
-		        "NAND3" : 20.4143,
-		        "NAND4" : 23.5301,
-		        "NAND5" : 26.6561,
-		        "NOR2" : 35.9054,
-		        "NOR3" : 25.6108,
-		        "NOR4" : 30.6857,
-		        "NOR5" : 42.7612,
-		        "O2A1O1I" : 24.7271,
-		        "OA21" : 17.2617,
-		        "OA211" : 24.3438,
-		        "OA22" : 18.1011,
-		        "OA33" : 20.0235,
-		        "OA331" : 26.14,
-		        "OA332" : 16.0517,
-		        "OAI21" : 18.6489,
-		        "OAI211" : 22.9415,
-		        "OAI22" : 26.6829,
-		        "OAI221" : 25.5124,
-		        "OAI222" : 26.7465,
-		        "OAI31" : 22.5325,
-		        "OAI311" : 23.5224,
-		        "OAI32" : 28.6801,
-		        "OAI321" : 29.93,
-		        "OAI322" : 35.8976,
-		        "OAI331" : 34.9563,
-		        "OAI332" : 35.1733,
-		        "OR2" : 34.5984,
-		        "OR3" : 24.9962,
-		        "OR4" : 29.4929,
-		        "OR5" : 36.6566,
-		        "SDFH" : 15.9394,
-		        "XNOR2" : 27.8183,
-		        "XOR2" : 30.0836}
+		return {"not" : 1, 
+		        "nand2" : 2,
+		        "nor2" : 2,
+		        "and2" : 3,
+		        "or2" : 3,
+		        "complex2" : 4,
+		        "d_flop" : 5}
+		# return {"not" : 27.0927, 
+		#         "nand2" : 28.5269,
+		#         "nor2" : 35.9054,
+		#         "and2" : 26.7959,
+		#         "or2" : 34.5984,
+		#         "complex2" : 22.106,
+		#         "d_flop" : 23.2254,
+		#         "INV" : 27.0927,
+		#         "AND2" : 26.7959,
+		#         "AND3" : 22.2191,
+		#         "AND4" : 26.1565,
+		#         "AND5" : 27.3621,
+		#         "A2O1A1I" : 24.4815,
+		#         "A2O1A1O1I" : 28.0788,
+		#         "AO21" : 14.6993,
+		#         "AO22" : 19.0622,
+		#         "AO221" : 18.6065,
+		#         "AO32" : 17.4794,
+		#         "AO33" : 19.6495,
+		#         "AO331" : 17.3897,
+		#         "AO332" : 33.7483,
+		#         "AOI21" : 19.9716,
+		#         "AOI211" : 25.4058,
+		#         "AOI22" : 24.3963,
+		#         "AOI221" : 27.1355,
+		#         "AOI222" : 32.4737,
+		#         "AOI31" : 23.7634,
+		#         "AOI311" : 25.1277,
+		#         "AOI32" : 29.0516,
+		#         "AOI321" : 31.0311,
+		#         "AOI322" : 33.2888,
+		#         "AOI33" : 30.5441,
+		#         "AOI331" : 37.0556,
+		#         "AOI332" : 45.632,
+		#         "BUF" : 26.2378,
+		#         "DFFHQ" : 23.2254,
+		#         "DFFHQN" : 33.5044,
+		#         "HA" : 27.7183,
+		#         "FA" : 55.1946,
+		#         "HB1" : 21.8976,
+		#         "NAND2" : 28.5269,
+		#         "NAND3" : 20.4143,
+		#         "NAND4" : 23.5301,
+		#         "NAND5" : 26.6561,
+		#         "NOR2" : 35.9054,
+		#         "NOR3" : 25.6108,
+		#         "NOR4" : 30.6857,
+		#         "NOR5" : 42.7612,
+		#         "O2A1O1I" : 24.7271,
+		#         "OA21" : 17.2617,
+		#         "OA211" : 24.3438,
+		#         "OA22" : 18.1011,
+		#         "OA33" : 20.0235,
+		#         "OA331" : 26.14,
+		#         "OA332" : 16.0517,
+		#         "OAI21" : 18.6489,
+		#         "OAI211" : 22.9415,
+		#         "OAI22" : 26.6829,
+		#         "OAI221" : 25.5124,
+		#         "OAI222" : 26.7465,
+		#         "OAI31" : 22.5325,
+		#         "OAI311" : 23.5224,
+		#         "OAI32" : 28.6801,
+		#         "OAI321" : 29.93,
+		#         "OAI322" : 35.8976,
+		#         "OAI331" : 34.9563,
+		#         "OAI332" : 35.1733,
+		#         "OR2" : 34.5984,
+		#         "OR3" : 24.9962,
+		#         "OR4" : 29.4929,
+		#         "OR5" : 36.6566,
+		#         "SDFH" : 15.9394,
+		#         "XNOR2" : 27.8183,
+		#         "XOR2" : 30.0836}
 
 	## Access pathSize
 	#
@@ -194,12 +201,12 @@ class PathDataset(object):
 	# \param self Instance of PathDataset class.
 	# \param pathDB PathDatabase with the database from which data is to be collected
 	# \param numSamples Optional integer to define the number of samples to be collected. Default is all (0)
-	# \param critPathTh Optional float to define the threshold used to define critical paths. Default is 0.8
+	# \param critPathTh Optional float to define the threshold used to define critical paths. Default is 0.9
 	# \param pathKey Optional string defining the key to use when collecting paths
 	# \param delayKey Optional string defining the key to use when collecting path delays
 	# \param targetCTDivisionFactor Optional float defining division factor to use on target CTs
 	# \param fanoutDivisionFactor Optional float defining division factor to use on fanouts
-	def add(self, pathDB, numSamples=0, critPathTh=0.8, pathKey=PathDatabase.synGenPathKey, delayKey=PathDatabase.placeAndRouteDelayKey, targetCTDivisionFactor=1000.0, fanoutDivisionFactor=100.0):
+	def add(self, pathDB, numSamples=0, critPathTh=0.9, pathKey=PathDatabase.synGenPathKey, delayKey=PathDatabase.placeAndRouteDelayKey, targetCTDivisionFactor=1000.0, fanoutDivisionFactor=100.0):
 		# Validate inputs
 		if not isinstance(pathDB, PathDatabase):
 			raise TypeError("pathDB must be a PathDatabase")
@@ -268,10 +275,11 @@ class PathDataset(object):
 				pathCellLoad = pathCell[4]
 				# pathCellTranIn = pathCell[5]
 				pathCellName = self.cellMap[pathCellName]
-				pathCellName = float(pathCellName)/float(maxCellCost)
+				# pathCellName = float(pathCellName)/float(maxCellCost)
 				pathCellFanout = pathCellFanout / fanoutDivisionFactor
 				# featureTensor.append([targetCT, pathCellName, pathCellDrive, pathCellDirection, pathCellFanout, pathCellLoad])
-				featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellFanout, pathCellLoad])
+				# featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellFanout, pathCellLoad])
+				featureTensor.append([targetCT, pathCellName, pathCellLoad])
 				# Stop when reached pathSize
 				if len(featureTensor) == self.pathSize:
 					break
@@ -310,9 +318,9 @@ class PathDataset(object):
 			raise TypeError("valPct must be a float")
 		if not isinstance(testPct, float):
 			raise TypeError("testPct must be a float")
-		if trainPct <= 0.0:
+		if trainPct < 0.0:
 			raise ValueError("trainPct must be greater than 0")
-		if valPct <= 0.0:
+		if valPct < 0.0:
 			raise ValueError("valPct must be greater than 0")
 		if testPct < 0.0:
 			raise ValueError("testPct must be greater or equal to 0")

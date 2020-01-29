@@ -12,10 +12,11 @@ from PathDatabase import PathDatabase
 ################################################################################
 csvFileDir = "../data"
 # cktList = ["_debug_file_dont_use_218"]
-cktList = ["aes_250", "aes_350", "aes_450", "aes_650", "aes_750", "aes_850"]
+# cktList = ["aes_250", "aes_350", "aes_450", "aes_650", "aes_750", "aes_850"]
+cktList = ["pico-rv_675"]
 collectSynGen = True
-collectSynMap = True
-collectSynOpt = True
+collectSynMap = False
+collectSynOpt = False
 collectPnR = True
 cktNameAndCTRegexp = "(.+)_([0-9]+)"
 cellDrivingStregthRegexpGen = ""
@@ -34,7 +35,7 @@ startpointRmRegexpList = ["/.*"]
 endpointRmRegexpList = ["/.*"]
 pathMinSize = 1
 pathMaxSize = 100000
-databaseFileName = "aesDatabase_new.pkl"
+databaseFileName = "pico-rvDatabase.pkl"
 ################################################################################
 # Main program
 ################################################################################

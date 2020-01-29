@@ -11,18 +11,18 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-databaseFileName = "aesDatabase.pkl"
-datasetFileName = "synOptDataset.pkl"
+databaseFileName = "pico-rvDatabase.pkl"
+datasetFileName = "synGenOnlyLoadTestDataset.pkl"
 # 0 for all paths
 numSamples = 0
-critPathTh = 0.8
+critPathTh = 0.9
 targetCTDivisionFactor = 1000.0
 fanoutDivisionFactor = 100.0
-pathKey = PathDatabase.synOptPathKey
+pathKey = PathDatabase.synGenPathKey
 delayKey = PathDatabase.placeAndRouteDelayKey
-trainPct=0.5
-valPct=0.3
-testPct=0.2
+trainPct=0.0
+valPct=0.0
+testPct=1.0
 ################################################################################
 # Load Database
 ################################################################################
@@ -38,8 +38,8 @@ else:
 print("Cleaning database")
 removedRows=0
 removedRows+=database.clean(pathKey=PathDatabase.synGenPathKey)
-removedRows+=database.clean(pathKey=PathDatabase.synMapPathKey)
-removedRows+=database.clean(pathKey=PathDatabase.synOptPathKey)
+# removedRows+=database.clean(pathKey=PathDatabase.synMapPathKey)
+# removedRows+=database.clean(pathKey=PathDatabase.synOptPathKey)
 # removedRows+=database.clean(pathKey=PathDatabase.placeAndRoutePathKey)
 print("Removed %d rows" % removedRows)
 # print("Printing database")
@@ -51,13 +51,14 @@ f.close()
 # Main program
 ################################################################################
 print("Creating dataset")
-# Get largest path size to control padding and number of paths to control splits
-largestPathSize = 0
-for databaseIdx, databaseRow in database.database.iterrows():
-	# Make sure label data is valid
-	if (isinstance(databaseRow[delayKey], float) or isinstance(databaseRow[delayKey], int)):
-		datasetPath = databaseRow[pathKey]
-		largestPathSize = max(largestPathSize, len(datasetPath))
+# # Get largest path size to control padding and number of paths to control splits
+# largestPathSize = 0
+# for databaseIdx, databaseRow in database.database.iterrows():
+# 	# Make sure label data is valid
+# 	if (isinstance(databaseRow[delayKey], float) or isinstance(databaseRow[delayKey], int)):
+# 		datasetPath = databaseRow[pathKey]
+# 		largestPathSize = max(largestPathSize, len(datasetPath))
+largestPathSize = 25
 # Create dataset
 dataset = PathDataset(pathSize = largestPathSize)
 print("Adding data to dataset")
