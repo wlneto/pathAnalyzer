@@ -20,10 +20,8 @@ epochs = 50
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
-# trainDatasetFileName = "synGenOnlyLoadTrainDataset.pkl"
-# testDatasetFileName = "synGenOnlyLoadTestDataset.pkl"
-trainDatasetFileName = "synGenOnlyLoadFullDataset.pkl"
-testDatasetFileName = "synGenOnlyLoadFullDataset.pkl"
+trainDatasetFileName = "aesDataset.pkl"
+testDatasetFileName = "pico-rvDataset.pkl"
 outlierErrorThreshold = 0.1
 outlierList = []
 checkpointPath = "neuralNetworkTraining/nn~{epoch:04d}.ckpt"
@@ -110,16 +108,16 @@ model = tf.keras.models.Sequential()
 # model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(8, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=featureTensorShape))
+model.add(tf.keras.layers.Conv2D(64, (3,3), activation='relu', input_shape=featureTensorShape))
 model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Conv2D(16, (2,1), activation='relu'))
+model.add(tf.keras.layers.Conv2D(64, (2,1), activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Conv2D(16, (2,1), activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(8, activation='relu'))
+model.add(tf.keras.layers.Dense(64, activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Dense(8, activation='relu'))
+model.add(tf.keras.layers.Dense(64, activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(8, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))

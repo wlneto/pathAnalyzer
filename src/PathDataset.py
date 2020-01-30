@@ -232,7 +232,7 @@ class PathDataset(object):
 				maxCellCost = self.cellMap[cellName]
 		# print("Max cell cost is %f" % maxCellCost)
 		# Collect sample of database (only paths with more than 0 cells)
-		sampleDatabaseDF = pathDB.sample(numSamples=numSamples,)
+		sampleDatabaseDF = pathDB.sample(numSamples=numSamples)
 		# Iterate through samples and add to dataset
 		for sampleDatabaseDFIdx, sampleDatabaseDFRow in sampleDatabaseDF.iterrows():
 			# Make sure input data is valid
@@ -257,52 +257,54 @@ class PathDataset(object):
 			endpoint = sampleDatabaseDFRow[PathDatabase.endpointKey]
 			# Get path
 			path = sampleDatabaseDFRow[pathKey]
-			# Collect label
-			if float(pathDelay)/float(targetCT) > critPathTh:
-				label = 1
-			else:
-				label = 0
-			# Create tensor
-			featureTensor = []
-			# Adjust CT before adding to tensor
-			targetCT = targetCT / targetCTDivisionFactor
-			# Iterate through path to format data and add to tensor
-			for pathCell in path:
-				pathCellName = pathCell[0]
-				# pathCellDrive = pathCell[1]
-				pathCellDirection = pathCell[2]
-				pathCellFanout = pathCell[3]
-				pathCellLoad = pathCell[4]
-				# pathCellTranIn = pathCell[5]
-				pathCellName = self.cellMap[pathCellName]
-				# pathCellName = float(pathCellName)/float(maxCellCost)
-				pathCellFanout = pathCellFanout / fanoutDivisionFactor
-				# featureTensor.append([targetCT, pathCellName, pathCellDrive, pathCellDirection, pathCellFanout, pathCellLoad])
-				# featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellFanout, pathCellLoad])
-				featureTensor.append([targetCT, pathCellName, pathCellLoad])
-				# Stop when reached pathSize
-				if len(featureTensor) == self.pathSize:
-					break
-				# This cant happen
-				elif len(featureTensor) > self.pathSize:
-					raise RuntimeError("Unexpected error adding paths. Read tensor with size %d and max size is %d" % (len(featureTensor), self.pathSize))
-			# Add padding to tensor
-			for padIdx in range(len(featureTensor),self.pathSize):
-				featureTensor.append(len(featureTensor[0])*[0])
-			# Set index
-			dbIdx = self.dataset.index
-			if (len(dbIdx) == 0):
-				dbIdx = 0
-			else:
-				dbIdx = max(self.dataset.index) + 1
-			# Add new row to dataset
-			self.dataset.loc[dbIdx] = [cktName,
-			                           sampleDatabaseDFIdx,
-			                           startpoint,
-			                           endpoint,
-			                           PathDataset.unassignedDataLabel,
-			                           featureTensor,
-			                           label]
+			# Only add paths with size smaller or equal to defined pathSize
+			if len(path) <= self.pathSize:
+				# Collect label
+				if float(pathDelay)/float(targetCT) > critPathTh:
+					label = 1
+				else:
+					label = 0
+				# Create tensor
+				featureTensor = []
+				# Adjust CT before adding to tensor
+				targetCT = targetCT / targetCTDivisionFactor
+				# Iterate through path to format data and add to tensor
+				for pathCell in path:
+					pathCellName = pathCell[0]
+					# pathCellDrive = pathCell[1]
+					pathCellDirection = pathCell[2]
+					pathCellFanout = pathCell[3]
+					pathCellLoad = pathCell[4]
+					# pathCellTranIn = pathCell[5]
+					pathCellName = self.cellMap[pathCellName]
+					# pathCellName = float(pathCellName)/float(maxCellCost)
+					pathCellFanout = pathCellFanout / fanoutDivisionFactor
+					# featureTensor.append([targetCT, pathCellName, pathCellDrive, pathCellDirection, pathCellFanout, pathCellLoad])
+					# featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellFanout, pathCellLoad])
+					featureTensor.append([targetCT, pathCellName, pathCellLoad])
+					# # Stop when reached pathSize
+					# if len(featureTensor) == self.pathSize:
+					# 	break
+					# # This cant happen
+					# elif len(featureTensor) > self.pathSize:
+					# 	raise RuntimeError("Unexpected error adding paths. Read tensor with size %d and max size is %d" % (len(featureTensor), self.pathSize))
+				# Add padding to tensor
+				for padIdx in range(len(featureTensor),self.pathSize):
+					featureTensor.append(len(featureTensor[0])*[0])
+				# Set index
+				dbIdx = self.dataset.index
+				if (len(dbIdx) == 0):
+					dbIdx = 0
+				else:
+					dbIdx = max(self.dataset.index) + 1
+				# Add new row to dataset
+				self.dataset.loc[dbIdx] = [cktName,
+				                           sampleDatabaseDFIdx,
+				                           startpoint,
+				                           endpoint,
+				                           PathDataset.unassignedDataLabel,
+				                           featureTensor,
+				                           label]
 
 	## Split dataset in training, validation and testing
 	#

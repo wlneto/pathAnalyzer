@@ -11,8 +11,8 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-databaseFileName = "pico-rvDatabase.pkl"
-datasetFileName = "synGenOnlyLoadTestDataset.pkl"
+databaseFileName = "fullDatabase.pkl"
+datasetFileName = "fullDataset.pkl"
 # 0 for all paths
 numSamples = 0
 critPathTh = 0.9
@@ -20,9 +20,9 @@ targetCTDivisionFactor = 1000.0
 fanoutDivisionFactor = 100.0
 pathKey = PathDatabase.synGenPathKey
 delayKey = PathDatabase.placeAndRouteDelayKey
-trainPct=0.0
-valPct=0.0
-testPct=1.0
+trainPct=0.5
+valPct=0.2
+testPct=0.3
 ################################################################################
 # Load Database
 ################################################################################
@@ -38,8 +38,8 @@ else:
 print("Cleaning database")
 removedRows=0
 removedRows+=database.clean(pathKey=PathDatabase.synGenPathKey)
-# removedRows+=database.clean(pathKey=PathDatabase.synMapPathKey)
-# removedRows+=database.clean(pathKey=PathDatabase.synOptPathKey)
+removedRows+=database.clean(pathKey=PathDatabase.synMapPathKey)
+removedRows+=database.clean(pathKey=PathDatabase.synOptPathKey)
 # removedRows+=database.clean(pathKey=PathDatabase.placeAndRoutePathKey)
 print("Removed %d rows" % removedRows)
 # print("Printing database")
