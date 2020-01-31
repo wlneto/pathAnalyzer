@@ -16,12 +16,14 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-epochs = 50
+epochs = 100
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
 trainDatasetFileName = "aesDataset.pkl"
 testDatasetFileName = "pico-rvDataset.pkl"
+# trainDatasetFileName = "fullDataset.pkl"
+# testDatasetFileName = "fullDataset.pkl"
 outlierErrorThreshold = 0.1
 outlierList = []
 checkpointPath = "neuralNetworkTraining/nn~{epoch:04d}.ckpt"
@@ -110,8 +112,8 @@ model = tf.keras.models.Sequential()
 # model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Conv2D(64, (3,3), activation='relu', input_shape=featureTensorShape))
 model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Conv2D(64, (2,1), activation='relu'))
-model.add(tf.keras.layers.Dropout(0.1))
+# model.add(tf.keras.layers.Conv2D(16, (2,1), activation='relu'))
+# model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Conv2D(16, (2,1), activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Flatten())
@@ -119,9 +121,9 @@ model.add(tf.keras.layers.Dense(64, activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Dense(64, activation='relu'))
 model.add(tf.keras.layers.Dropout(0.1))
-# model.add(tf.keras.layers.Dense(8, activation='relu'))
+# model.add(tf.keras.layers.Dense(32, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
-# model.add(tf.keras.layers.Dense(8, activation='relu'))
+# model.add(tf.keras.layers.Dense(32, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(32, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
@@ -139,9 +141,12 @@ model.summary()
 # Checkpoint callback
 checkpointDir = os.path.dirname(checkpointPath)
 cpCallback = tf.keras.callbacks.ModelCheckpoint(checkpointPath, save_weights_only=True, verbose=1, period=checkpointFreq)
-lossFunction = 'binary_crossentropy'
+# lossFunction = 'binary_crossentropy'
 # lossFunction = 'mean_squared_logarithmic_error'
-history = model.compile(optimizer='adam', loss=lossFunction, metrics=['accuracy'])
+# lossFunction = 'mean_squared_error'
+lossFunction = 'mean_absolute_error'
+# history = model.compile(optimizer='adam', loss=lossFunction, metrics=[lossFunction])
+history = model.compile(optimizer='adam', loss=lossFunction)
 # # history.history.keys()
 # # history.history
 history = model.fit(trainFeatureList,trainLabelList,
@@ -163,19 +168,39 @@ print("Checking test data")
 print("  Found %d labels" % len(testLabelList))
 testPredictList = model.predict(testFeatureList)
 print("  Collected %d predictions" % len(testPredictList))
-# print(testPredictList)
+testPredictList = testPredictList.reshape(len(testPredictList))
+testLabelList = testLabelList.reshape(len(testLabelList))
+testErrorList = []
+testErrorLargerList = []
+testErrorSmallerList = []
+for label, predict in zip(testLabelList, testPredictList):
+	error = label/predict
+	if error < 1.0:
+		error = 1.0 - error
+		testErrorSmallerList.append(error)
+	else:
+		error = error - 1.0
+		testErrorLargerList.append(error)
+	testErrorList.append(error)
+testErrorMean = sum(testErrorList)/len(testErrorList)
+fig1 = go.Figure(data=[go.Scatter(x=testLabelList,y=testPredictList,text=testErrorList,mode="markers",name="Prediction"),go.Scatter(x=testLabelList,y=testLabelList,name="Ideal"),go.Scatter(x=testLabelList,y=1.1*testLabelList),go.Scatter(x=testLabelList,y=0.9*testLabelList)])
+fig1.update_layout(title="Max Error = %f" % max(testErrorList))
+fig1.show()
+fig2 = go.Figure(data=[go.Histogram(x=testErrorList)])
+fig2.update_layout(title="Error Distribution (Mean Error = %f)" % testErrorMean)
+fig2.show()
 truePositive = 0
 trueNegative = 0
 falsePositive = 0
 falseNegative = 0
 for predict, label in zip(testPredictList, testLabelList):
-	if predict > 0.5:
-		if label == 1:
+	if predict >= 0.9:
+		if label >= 0.9:
 			truePositive += 1
 		else:
 			falsePositive += 1
 	else:
-		if label == 0:
+		if label < 0.9:
 			trueNegative += 1
 		else:
 			falseNegative += 1
@@ -188,27 +213,6 @@ print("Act. Pos\t%d\t%d" % (falseNegative, truePositive))
 print("Precision = %f" % precision)
 print("Recall = %f" % recall)
 print("F1 = %f" % f1Score)
-# testPredictList = testPredictList.reshape(len(testPredictList))
-# testLabelList = testLabelList.reshape(len(testLabelList))
-# testErrorList = []
-# testErrorLargerList = []
-# testErrorSmallerList = []
-# for label, predict in zip(testLabelList, testPredictList):
-# 	error = label/predict
-# 	if error < 1.0:
-# 		error = 1.0 - error
-# 		testErrorSmallerList.append(error)
-# 	else:
-# 		error = error - 1.0
-# 		testErrorLargerList.append(error)
-# 	testErrorList.append(error)
-# testErrorMean = sum(testErrorList)/len(testErrorList)
-# fig1 = go.Figure(data=[go.Scatter(x=testLabelList,y=testPredictList,text=testErrorList,mode="markers",name="Prediction"),go.Scatter(x=testLabelList,y=testLabelList,name="Ideal"),go.Scatter(x=testLabelList,y=1.1*testLabelList),go.Scatter(x=testLabelList,y=0.9*testLabelList)])
-# fig1.update_layout(title="Max Error = %f" % max(testErrorList))
-# fig1.show()
-# fig2 = go.Figure(data=[go.Histogram(x=testErrorList)])
-# fig2.update_layout(title="Error Distribution (Mean Error = %f)" % testErrorMean)
-# fig2.show()
 # ################################################################################
 # # Get outliers
 # ################################################################################

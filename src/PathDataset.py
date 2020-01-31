@@ -259,11 +259,12 @@ class PathDataset(object):
 			path = sampleDatabaseDFRow[pathKey]
 			# Only add paths with size smaller or equal to defined pathSize
 			if len(path) <= self.pathSize:
-				# Collect label
-				if float(pathDelay)/float(targetCT) > critPathTh:
-					label = 1
-				else:
-					label = 0
+				# # Collect label
+				# if float(pathDelay)/float(targetCT) > critPathTh:
+				# 	label = 1
+				# else:
+				# 	label = 0
+				label = float(pathDelay)/float(targetCT)
 				# Create tensor
 				featureTensor = []
 				# Adjust CT before adding to tensor
@@ -280,8 +281,8 @@ class PathDataset(object):
 					# pathCellName = float(pathCellName)/float(maxCellCost)
 					pathCellFanout = pathCellFanout / fanoutDivisionFactor
 					# featureTensor.append([targetCT, pathCellName, pathCellDrive, pathCellDirection, pathCellFanout, pathCellLoad])
-					# featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellFanout, pathCellLoad])
-					featureTensor.append([targetCT, pathCellName, pathCellLoad])
+					featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellFanout, pathCellLoad])
+					# featureTensor.append([targetCT, pathCellName, pathCellLoad])
 					# # Stop when reached pathSize
 					# if len(featureTensor) == self.pathSize:
 					# 	break
