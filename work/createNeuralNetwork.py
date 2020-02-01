@@ -8,6 +8,7 @@ import os
 import sys
 import tensorflow as tf
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 sys.path.append(os.path.realpath("../src"))
 from PathDataset import PathDataset
 # import pprint
@@ -16,12 +17,14 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-epochs = 100
+epochs = 50
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
-trainDatasetFileName = "aesDataset.pkl"
-testDatasetFileName = "pico-rvDataset.pkl"
+# trainDatasetFileName = "aesDataset.pkl"
+# testDatasetFileName = "pico-rvDataset.pkl"
+trainDatasetFileName = "aesOnlyDataset.pkl"
+testDatasetFileName = "aesOnlyDataset.pkl"
 # trainDatasetFileName = "fullDataset.pkl"
 # testDatasetFileName = "fullDataset.pkl"
 outlierErrorThreshold = 0.1
@@ -110,16 +113,16 @@ model = tf.keras.models.Sequential()
 # model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(8, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Conv2D(64, (3,3), activation='relu', input_shape=featureTensorShape))
+model.add(tf.keras.layers.Conv2D(16, (5,5), activation='sigmoid', input_shape=featureTensorShape))
 model.add(tf.keras.layers.Dropout(0.1))
-# model.add(tf.keras.layers.Conv2D(16, (2,1), activation='relu'))
+# model.add(tf.keras.layers.Conv2D(32, (3,3), activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
-# model.add(tf.keras.layers.Conv2D(16, (2,1), activation='relu'))
+# model.add(tf.keras.layers.Conv2D(32, (2,1), activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
 model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(64, activation='relu'))
+model.add(tf.keras.layers.Dense(16, activation='sigmoid'))
 model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Dense(64, activation='relu'))
+model.add(tf.keras.layers.Dense(16, activation='sigmoid'))
 model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(32, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
@@ -141,12 +144,11 @@ model.summary()
 # Checkpoint callback
 checkpointDir = os.path.dirname(checkpointPath)
 cpCallback = tf.keras.callbacks.ModelCheckpoint(checkpointPath, save_weights_only=True, verbose=1, period=checkpointFreq)
-# lossFunction = 'binary_crossentropy'
+lossFunction = 'binary_crossentropy'
 # lossFunction = 'mean_squared_logarithmic_error'
 # lossFunction = 'mean_squared_error'
-lossFunction = 'mean_absolute_error'
-# history = model.compile(optimizer='adam', loss=lossFunction, metrics=[lossFunction])
-history = model.compile(optimizer='adam', loss=lossFunction)
+# lossFunction = 'mean_absolute_error'
+history = model.compile(optimizer='adam', loss=lossFunction, metrics=["accuracy"])
 # # history.history.keys()
 # # history.history
 history = model.fit(trainFeatureList,trainLabelList,
@@ -170,37 +172,53 @@ testPredictList = model.predict(testFeatureList)
 print("  Collected %d predictions" % len(testPredictList))
 testPredictList = testPredictList.reshape(len(testPredictList))
 testLabelList = testLabelList.reshape(len(testLabelList))
-testErrorList = []
-testErrorLargerList = []
-testErrorSmallerList = []
+# testErrorList = []
+# testErrorLargerList = []
+# testErrorSmallerList = []
+# for label, predict in zip(testLabelList, testPredictList):
+# 	error = label/predict
+# 	if error < 1.0:
+# 		error = 1.0 - error
+# 		testErrorSmallerList.append(error)
+# 	else:
+# 		error = error - 1.0
+# 		testErrorLargerList.append(error)
+# 	testErrorList.append(error)
+# testErrorMean = sum(testErrorList)/len(testErrorList)
+# fig1 = go.Figure(data=[go.Scatter(x=testLabelList,y=testPredictList,text=testErrorList,mode="markers",name="Prediction"),go.Scatter(x=testLabelList,y=testLabelList,name="Ideal"),go.Scatter(x=testLabelList,y=1.1*testLabelList),go.Scatter(x=testLabelList,y=0.9*testLabelList)])
+# fig1.update_layout(title="Max Error = %f" % max(testErrorList))
+# fig1.show()
+# fig2 = go.Figure(data=[go.Histogram(x=testErrorList)])
+# fig2.update_layout(title="Error Distribution (Mean Error = %f)" % testErrorMean)
+# fig2.show()
+# Bin classifier error analysis
+fig = make_subplots(rows=2, cols=1, subplot_titles=("Label 0", "Label 1"))
+label0List = []
+label1List = []
 for label, predict in zip(testLabelList, testPredictList):
-	error = label/predict
-	if error < 1.0:
-		error = 1.0 - error
-		testErrorSmallerList.append(error)
+	if label == 0:
+		label0List.append(predict)
+	elif label == 1:
+		label1List.append(predict)
 	else:
-		error = error - 1.0
-		testErrorLargerList.append(error)
-	testErrorList.append(error)
-testErrorMean = sum(testErrorList)/len(testErrorList)
-fig1 = go.Figure(data=[go.Scatter(x=testLabelList,y=testPredictList,text=testErrorList,mode="markers",name="Prediction"),go.Scatter(x=testLabelList,y=testLabelList,name="Ideal"),go.Scatter(x=testLabelList,y=1.1*testLabelList),go.Scatter(x=testLabelList,y=0.9*testLabelList)])
-fig1.update_layout(title="Max Error = %f" % max(testErrorList))
-fig1.show()
-fig2 = go.Figure(data=[go.Histogram(x=testErrorList)])
-fig2.update_layout(title="Error Distribution (Mean Error = %f)" % testErrorMean)
-fig2.show()
+		raise RuntimeError("Unexpected error! Read label %s" % str(label))
+
+fig.add_trace(go.Histogram(x=label0List), row=1, col=1)
+fig.add_trace(go.Histogram(x=label1List), row=2, col=1)
+fig.update_layout(title="Binary classifier prediction error", height=900, width=1800, showlegend=False)
+fig.show()
 truePositive = 0
 trueNegative = 0
 falsePositive = 0
 falseNegative = 0
-for predict, label in zip(testPredictList, testLabelList):
-	if predict >= 0.9:
-		if label >= 0.9:
+for label, predict in zip(testLabelList, testPredictList):
+	if predict >= 0.5:
+		if label == 1:
 			truePositive += 1
 		else:
 			falsePositive += 1
 	else:
-		if label < 0.9:
+		if label == 0:
 			trueNegative += 1
 		else:
 			falseNegative += 1

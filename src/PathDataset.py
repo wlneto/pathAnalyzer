@@ -259,12 +259,14 @@ class PathDataset(object):
 			path = sampleDatabaseDFRow[pathKey]
 			# Only add paths with size smaller or equal to defined pathSize
 			if len(path) <= self.pathSize:
-				# # Collect label
-				# if float(pathDelay)/float(targetCT) > critPathTh:
-				# 	label = 1
-				# else:
-				# 	label = 0
-				label = float(pathDelay)/float(targetCT)
+				## Collect label
+				# For binary classifier label
+				if float(pathDelay)/float(targetCT) > critPathTh:
+					label = 1
+				else:
+					label = 0
+				# # For criticality classifier label
+				# label = float(pathDelay)/float(targetCT)
 				# Create tensor
 				featureTensor = []
 				# Adjust CT before adding to tensor
