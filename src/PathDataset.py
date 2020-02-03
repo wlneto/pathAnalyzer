@@ -247,10 +247,10 @@ class PathDataset(object):
 			# Get target CT and delay
 			targetCT = float(sampleDatabaseDFRow[PathDatabase.targetCycleTimeKey])
 			if targetCT < 0.0:
-				raise ValueError("Path CT must be grater than 0. Read %f." % targetCT)
+				raise ValueError("Target CT must be grater than 0. Read %f." % targetCT)
 			pathDelay = float(sampleDatabaseDFRow[delayKey])
-			if pathDelay < 0.0:
-				raise ValueError("Path delay must be grater than 0. Read %f." % pathDelay)
+			# if pathDelay < 0.0:
+				# raise ValueError("Path delay must be grater than 0. Read %f." % pathDelay)
 			# Get cktName, start and end point
 			cktName = sampleDatabaseDFRow[PathDatabase.cktNameKey]
 			startpoint = sampleDatabaseDFRow[PathDatabase.startpointKey]
@@ -258,7 +258,7 @@ class PathDataset(object):
 			# Get path
 			path = sampleDatabaseDFRow[pathKey]
 			# Only add paths with size smaller or equal to defined pathSize
-			if len(path) <= self.pathSize:
+			if (len(path) <= self.pathSize) and (pathDelay >= 0.0):
 				## Collect label
 				# For binary classifier label
 				if float(pathDelay)/float(targetCT) > critPathTh:
