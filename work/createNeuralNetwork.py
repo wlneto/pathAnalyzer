@@ -17,16 +17,18 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-epochs = 50
+epochs = 10
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
-# trainDatasetFileName = "aesDataset.pkl"
-# testDatasetFileName = "pico-rvDataset.pkl"
-trainDatasetFileName = "aesOnlyDataset.pkl"
-testDatasetFileName = "aesOnlyDataset.pkl"
-# trainDatasetFileName = "fullDataset.pkl"
-# testDatasetFileName = "fullDataset.pkl"
+# trainDatasetFileName = "aesTrainDataset.pkl"
+# testDatasetFileName = "riscvTestDataset.pkl"
+# trainDatasetFileName = "aesTrainDataset.pkl"
+# testDatasetFileName = "riscvTestDataset25.pkl"
+# trainDatasetFileName = "aesFullDataset.pkl"
+# testDatasetFileName = "aesFullDataset.pkl"
+trainDatasetFileName = "riscvTrainDataset.pkl"
+testDatasetFileName = "aesTestDataset.pkl"
 outlierErrorThreshold = 0.1
 outlierList = []
 checkpointPath = "neuralNetworkTraining/nn~{epoch:04d}.ckpt"
@@ -76,7 +78,11 @@ testDatasetDF=testDataset.dataset
 testFeatureList = []
 testLabelList = []
 for testDatasetIdx, testDatasetRow in testDatasetDF[testDatasetDF[PathDataset.dataTypeKey] == PathDataset.testDataLabel].iterrows():
-	testFeatureList.append(testDatasetRow[PathDataset.featureTensorKey])
+	feature = testDatasetRow[PathDataset.featureTensorKey]
+	while len(feature) < 58:
+		feature.append([0.0, 0.0, 0.0, 0.0, 0.0])
+	testFeatureList.append(feature)
+	# testFeatureList.append(testDatasetRow[PathDataset.featureTensorKey])
 	testLabelList.append(testDatasetRow[PathDataset.labelKey])
 testSetSize = len(testLabelList)
 print("  Test set size = %d" % testSetSize)

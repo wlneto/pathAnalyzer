@@ -11,8 +11,10 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-databaseFileName = "fullDatabase.pkl"
-datasetFileName = "fullDataset.pkl"
+if len(sys.argv) != 7:
+	raise RuntimeError("Missing parameters. Read %s" % sys.argv[1:])
+databaseFileName = str(sys.argv[1])
+datasetFileName = str(sys.argv[2])
 # 0 for all paths
 numSamples = 0
 critPathTh = 0.9
@@ -20,9 +22,19 @@ targetCTDivisionFactor = 1000.0
 fanoutDivisionFactor = 100.0
 pathKey = PathDatabase.synGenPathKey
 delayKey = PathDatabase.placeAndRouteDelayKey
-trainPct=0.5
-valPct=0.2
-testPct=0.3
+trainPct=float(sys.argv[3])
+valPct=float(sys.argv[4])
+testPct=float(sys.argv[5])
+largestPathSize=int(sys.argv[6])
+print("##############################################")
+print("Creating dataset with configs:")
+print("databaseFileName: %s" % databaseFileName)
+print("datasetFileName:  %s" % datasetFileName)
+print("trainPct:         %f" % trainPct)
+print("valPct:           %f" % valPct)
+print("testPct:          %f" % testPct)
+print("largestPathSize:  %d" % largestPathSize)
+print("##############################################")
 ################################################################################
 # Load Database
 ################################################################################
@@ -38,8 +50,8 @@ else:
 print("Cleaning database")
 removedRows=0
 removedRows+=database.clean(pathKey=PathDatabase.synGenPathKey)
-removedRows+=database.clean(pathKey=PathDatabase.synMapPathKey)
-removedRows+=database.clean(pathKey=PathDatabase.synOptPathKey)
+# removedRows+=database.clean(pathKey=PathDatabase.synMapPathKey)
+# removedRows+=database.clean(pathKey=PathDatabase.synOptPathKey)
 # removedRows+=database.clean(pathKey=PathDatabase.placeAndRoutePathKey)
 print("Removed %d rows" % removedRows)
 # print("Printing database")
@@ -50,19 +62,19 @@ f.close()
 ################################################################################
 # Main program
 ################################################################################
+pathDatabase = database
 print("Creating dataset")
-# # Get largest path size to control padding and number of paths to control splits
-# largestPathSize = 0
-# for databaseIdx, databaseRow in database.database.iterrows():
-# 	# Make sure label data is valid
-# 	if (isinstance(databaseRow[delayKey], float) or isinstance(databaseRow[delayKey], int)):
-# 		datasetPath = databaseRow[pathKey]
-# 		largestPathSize = max(largestPathSize, len(datasetPath))
-largestPathSize = 25
+# Get largest path size to control padding and number of paths to control splits
+if(largestPathSize == 0):
+	for databaseIdx, databaseRow in pathDatabase.database.iterrows():
+		# Make sure label data is valid
+		if (isinstance(databaseRow[delayKey], float) or isinstance(databaseRow[delayKey], int)):
+			datasetPath = databaseRow[pathKey]
+			largestPathSize = max(largestPathSize, len(datasetPath))
 # Create dataset
 dataset = PathDataset(pathSize = largestPathSize)
-print("Adding data to dataset")
-dataset.add(database, numSamples=numSamples, critPathTh=critPathTh, pathKey=pathKey, delayKey=delayKey, targetCTDivisionFactor=targetCTDivisionFactor, fanoutDivisionFactor=fanoutDivisionFactor)
+print("Adding data to dataset with largest path = %d" % largestPathSize)
+dataset.add(pathDatabase, numSamples=numSamples, critPathTh=critPathTh, pathKey=pathKey, delayKey=delayKey, targetCTDivisionFactor=targetCTDivisionFactor, fanoutDivisionFactor=fanoutDivisionFactor)
 print("Splitting dataset")
 dataset.split(trainPct=trainPct, valPct=valPct, testPct=testPct)
 # print("Plotting dataset")

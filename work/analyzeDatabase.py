@@ -11,8 +11,9 @@ from PathDatabase import PathDatabase
 # Config
 ################################################################################
 # databaseFileName = "aesDatabase.pkl"
-# databaseFileName = "pico-rvDatabase.pkl"
-databaseFileName = "fullDatabase.pkl"
+# databaseFileName = "adderDatabase.pkl"
+databaseFileName = "riscvDatabase.pkl"
+# databaseFileName = "fullDatabase.pkl"
 ################################################################################
 # Main program
 ################################################################################
