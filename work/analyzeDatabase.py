@@ -10,9 +10,9 @@ from PathDatabase import PathDatabase
 ################################################################################
 # Config
 ################################################################################
-# databaseFileName = "aesDatabase.pkl"
+databaseFileName = "aesDatabase350.pkl"
+# databaseFileName = "pico-rvDatabase400.pkl"
 # databaseFileName = "adderDatabase.pkl"
-databaseFileName = "riscvDatabase.pkl"
 # databaseFileName = "fullDatabase.pkl"
 ################################################################################
 # Main program
@@ -25,6 +25,6 @@ if os.path.exists(databaseFileName):
 else:
 	raise RuntimeError("ERROR! Couldn't find file %s" % (databaseFileName))
 # print("Printing database")
-# print(database.tabulate())
+print(database.tabulate())
 print("Plotting database")
 database.plot()

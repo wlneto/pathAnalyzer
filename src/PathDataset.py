@@ -9,6 +9,7 @@
 # 1.1      | Matheus T. M.     | 01/17/20 | Enhancing add function, adding split and plot functions
 # 1.2      | Matheus T. M.     | 01/18/20 | Updating add function to use new algorithm for creating labels
 # 1.3      | Matheus T. M.     | 01/26/20 | Updating methods to support mapped gates data and upgrading gate dictionary
+# 1.4      | Matheus T. M.     | 02/03/20 | Adding strategy options
 #
 
 import gc
@@ -38,12 +39,17 @@ class PathDataset(object):
 	#
 	# \param self Instance of PathDataset class.
 	# \param pathSize Integer defining the size of paths in this dataset
-	def __init__(self, pathSize):
-		# Validate input
+	# \param strategy Optional Integer defining the strategy used to generate features. Default is 0
+	def __init__(self, pathSize, strategy=0):
+		# Validate inputs
 		if not isinstance(pathSize, int):
 			raise TypeError("pathSize must be an integer greater than 0")
 		if pathSize < 1:
 			raise ValueError("pathSize must be an integer greater than 0")
+		if not isinstance(strategy, int):
+			raise TypeError("strategy must be an integer >= 0 and < 3")
+		if strategy < 0 or strategy > 3:
+			raise ValueError("strategy must be an integer >= 0 and < 3")
 		super(PathDataset, self).__init__()
 
 		self.__dataset = pd.DataFrame(columns=[PathDataset.cktNameKey,
@@ -55,6 +61,7 @@ class PathDataset(object):
 		                                       PathDataset.labelKey])
 
 		self.__pathSize = pathSize
+		self.__strategy = strategy
 
 	## Destructor
 	#
@@ -162,6 +169,14 @@ class PathDataset(object):
 	@property
 	def pathSize(self):
 		return self.__pathSize
+
+	## Access strategy
+	#
+	# \param self Instance of PathDataset class.
+	# \return Integer
+	@property
+	def strategy(self):
+		return self.__strategy
 
 	## Access dataset
 	#
@@ -273,18 +288,29 @@ class PathDataset(object):
 				targetCT = targetCT / targetCTDivisionFactor
 				# Iterate through path to format data and add to tensor
 				for pathCell in path:
+					# cellName, cellDrive, direction, fanout, load, tranIn, delay, tranOut
 					pathCellName = pathCell[0]
-					# pathCellDrive = pathCell[1]
+					pathCellDrive = pathCell[1]
 					pathCellDirection = pathCell[2]
 					pathCellFanout = pathCell[3]
 					pathCellLoad = pathCell[4]
-					# pathCellTranIn = pathCell[5]
+					pathCellTranIn = pathCell[5]
+					pathCellDelay = pathCell[6]
+					pathCellTranOut = pathCell[7]
 					pathCellName = self.cellMap[pathCellName]
 					# pathCellName = float(pathCellName)/float(maxCellCost)
 					pathCellFanout = pathCellFanout / fanoutDivisionFactor
-					# featureTensor.append([targetCT, pathCellName, pathCellDrive, pathCellDirection, pathCellFanout, pathCellLoad])
-					featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellFanout, pathCellLoad])
-					# featureTensor.append([targetCT, pathCellName, pathCellLoad])
+					pathCellDelay = pathCellDelay / targetCTDivisionFactor
+					if self.strategy == 0:
+						featureTensor.append([targetCT, pathCellName, pathCellLoad])
+					elif self.strategy == 1:
+						featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellLoad])
+					elif self.strategy == 2:
+						featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellLoad, pathCellFanout])
+					elif self.strategy == 3:
+						featureTensor.append([targetCT, pathCellName, pathCellDirection, pathCellLoad, pathCellFanout, pathCellDelay])
+					else:
+						raise RuntimeError("Unexpected strategy %d" % self.strategy)
 					# # Stop when reached pathSize
 					# if len(featureTensor) == self.pathSize:
 					# 	break

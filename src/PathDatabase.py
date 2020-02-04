@@ -10,6 +10,7 @@
 # 1.2      | Matheus T. M.     | 01/18/20 | Fixing bug in clean method
 # 1.3      | Matheus T. M.     | 01/26/20 | Updating methods to support mapped gates data
 # 1.4      | Matheus T. M.     | 01/28/20 | Adding plot methods
+# 1.5      | Matheus T. M.     | 02/03/20 | Adding full path info with cellName, cellDrive, direction, fanout, load, tranIn, delay, tranOut
 #
 
 import gc
@@ -378,7 +379,7 @@ class PathDatabase(object):
 						# Collect cell information
 						cellName, cellDrive, direction, tranIn, load, fanout, tranOut, delay = self.__getCellInfo(cellDataList=row, tranIn=tranIn, cellNameRmRegexpList=cellNameRmRegexpList, cellDrivingStregthRegexp=cellDrivingStregthRegexp)
 						if cellName is not None:
-							path.append([cellName, cellDrive, direction, fanout, load, tranIn])
+							path.append([cellName, cellDrive, direction, fanout, load, tranIn, delay, tranOut])
 							# Prepare for next iteration
 							tranIn = tranOut
 		# If still one last path to add

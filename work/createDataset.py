@@ -26,6 +26,7 @@ trainPct=float(sys.argv[3])
 valPct=float(sys.argv[4])
 testPct=float(sys.argv[5])
 largestPathSize=int(sys.argv[6])
+strategy=int(sys.argv[7])
 print("##############################################")
 print("Creating dataset with configs:")
 print("databaseFileName: %s" % databaseFileName)
@@ -34,6 +35,7 @@ print("trainPct:         %f" % trainPct)
 print("valPct:           %f" % valPct)
 print("testPct:          %f" % testPct)
 print("largestPathSize:  %d" % largestPathSize)
+print("strategy:         %d" % strategy)
 print("##############################################")
 ################################################################################
 # Load Database
@@ -72,7 +74,7 @@ if(largestPathSize == 0):
 			datasetPath = databaseRow[pathKey]
 			largestPathSize = max(largestPathSize, len(datasetPath))
 # Create dataset
-dataset = PathDataset(pathSize = largestPathSize)
+dataset = PathDataset(pathSize = largestPathSize, strategy = strategy)
 print("Adding data to dataset with largest path = %d" % largestPathSize)
 dataset.add(pathDatabase, numSamples=numSamples, critPathTh=critPathTh, pathKey=pathKey, delayKey=delayKey, targetCTDivisionFactor=targetCTDivisionFactor, fanoutDivisionFactor=fanoutDivisionFactor)
 print("Splitting dataset")
