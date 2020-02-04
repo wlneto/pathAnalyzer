@@ -1,0 +1,66 @@
+Collecting trainDataset
+Collecting testDataset
+Collecting training, validation and test data
+  Training set size = 114498
+  Validation set size = 49070
+  Test set size = 7820
+Preparing Numpy Arrays
+  Feature tensor shape = (58, 3, 1)
+Creating Neural Network
+Training Neural Network
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d (Conv2D)              (None, 56, 1, 16)         160       
+_________________________________________________________________
+dropout (Dropout)            (None, 56, 1, 16)         0         
+_________________________________________________________________
+flatten (Flatten)            (None, 896)               0         
+_________________________________________________________________
+dense (Dense)                (None, 16)                14352     
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 16)                0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 16)                272       
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 16)                0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 17        
+=================================================================
+Total params: 14,801
+Trainable params: 14,801
+Non-trainable params: 0
+_________________________________________________________________
+Train on 114498 samples, validate on 49070 samples
+Epoch 1/10
+114498/114498 - 7s - loss: 0.4241 - accuracy: 0.8131 - val_loss: 0.3542 - val_accuracy: 0.8500
+Epoch 2/10
+114498/114498 - 7s - loss: 0.3708 - accuracy: 0.8399 - val_loss: 0.3441 - val_accuracy: 0.8565
+Epoch 3/10
+114498/114498 - 7s - loss: 0.3558 - accuracy: 0.8463 - val_loss: 0.3347 - val_accuracy: 0.8540
+Epoch 4/10
+114498/114498 - 7s - loss: 0.3477 - accuracy: 0.8495 - val_loss: 0.3298 - val_accuracy: 0.8548
+Epoch 5/10
+114498/114498 - 7s - loss: 0.3408 - accuracy: 0.8521 - val_loss: 0.3295 - val_accuracy: 0.8529
+Epoch 6/10
+114498/114498 - 7s - loss: 0.3348 - accuracy: 0.8548 - val_loss: 0.3182 - val_accuracy: 0.8621
+Epoch 7/10
+114498/114498 - 7s - loss: 0.3299 - accuracy: 0.8563 - val_loss: 0.3153 - val_accuracy: 0.8644
+Epoch 8/10
+114498/114498 - 7s - loss: 0.3252 - accuracy: 0.8593 - val_loss: 0.3074 - val_accuracy: 0.8637
+Epoch 9/10
+114498/114498 - 7s - loss: 0.3229 - accuracy: 0.8602 - val_loss: 0.3057 - val_accuracy: 0.8648
+Epoch 10/10
+
+Epoch 00010: saving model to neuralNetworkTraining/nn~0010.ckpt
+114498/114498 - 7s - loss: 0.3194 - accuracy: 0.8615 - val_loss: 0.2994 - val_accuracy: 0.8670
+Checking test data
+  Found 7820 labels
+  Collected 7820 predictions
+	Pred. Neg	Pred. Pos
+Act. Neg	1565	16
+Act. Pos	407	5832
+Precision = 0.997264
+Recall = 0.934765
+F1 = 0.965004
