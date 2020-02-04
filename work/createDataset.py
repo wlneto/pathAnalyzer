@@ -11,7 +11,7 @@ from PathDataset import PathDataset
 ################################################################################
 # Config
 ################################################################################
-if len(sys.argv) != 7:
+if len(sys.argv) != 8:
 	raise RuntimeError("Missing parameters. Read %s" % sys.argv[1:])
 databaseFileName = str(sys.argv[1])
 datasetFileName = str(sys.argv[2])
