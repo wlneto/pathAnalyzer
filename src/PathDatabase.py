@@ -398,6 +398,7 @@ class PathDatabase(object):
 		self.plotPathLength()
 		self.plotPathLengthVsCriticality()
 		self.plotPathVsCT()
+		self.plotCriticalPathFluctuation()
 
 	## Plots path length vs CT
 	#
@@ -405,8 +406,8 @@ class PathDatabase(object):
 	def plotPathVsCT(self):
 		# Initialize dictionaries
 		synGenCTDict = {}
-		synMapCTDict = {}
-		synOptCTDict = {}
+		# synMapCTDict = {}
+		# synOptCTDict = {}
 		placeAndRouteCTDict = {}
 		# Iterates through rows and populates dictionaries for synGen
 		for databaseDFIdx, databaseDFRow in self.__database.iterrows():
@@ -416,22 +417,22 @@ class PathDatabase(object):
 			if not synGenCT in synGenCTDict.keys():
 				synGenCTDict[synGenCT] = []
 			synGenCTDict[synGenCT].append(synGenPathSize)
-		# Iterates through rows and populates dictionaries for synMap
-		for databaseDFIdx, databaseDFRow in self.__database.iterrows():
-			# Get path sizes and add to dictionaries when needed
-			synMapPathSize = len(databaseDFRow[self.synMapPathKey])
-			synMapCT = databaseDFRow[self.targetCycleTimeKey]
-			if not synMapCT in synMapCTDict.keys():
-				synMapCTDict[synMapCT] = []
-			synMapCTDict[synMapCT].append(synMapPathSize)
-		# Iterates through rows and populates dictionaries for synOpt
-		for databaseDFIdx, databaseDFRow in self.__database.iterrows():
-			# Get path sizes and add to dictionaries when needed
-			synOptPathSize = len(databaseDFRow[self.synOptPathKey])
-			synOptCT = databaseDFRow[self.targetCycleTimeKey]
-			if not synOptCT in synOptCTDict.keys():
-				synOptCTDict[synOptCT] = []
-			synOptCTDict[synOptCT].append(synOptPathSize)
+		# # Iterates through rows and populates dictionaries for synMap
+		# for databaseDFIdx, databaseDFRow in self.__database.iterrows():
+		# 	# Get path sizes and add to dictionaries when needed
+		# 	synMapPathSize = len(databaseDFRow[self.synMapPathKey])
+		# 	synMapCT = databaseDFRow[self.targetCycleTimeKey]
+		# 	if not synMapCT in synMapCTDict.keys():
+		# 		synMapCTDict[synMapCT] = []
+		# 	synMapCTDict[synMapCT].append(synMapPathSize)
+		# # Iterates through rows and populates dictionaries for synOpt
+		# for databaseDFIdx, databaseDFRow in self.__database.iterrows():
+		# 	# Get path sizes and add to dictionaries when needed
+		# 	synOptPathSize = len(databaseDFRow[self.synOptPathKey])
+		# 	synOptCT = databaseDFRow[self.targetCycleTimeKey]
+		# 	if not synOptCT in synOptCTDict.keys():
+		# 		synOptCTDict[synOptCT] = []
+		# 	synOptCTDict[synOptCT].append(synOptPathSize)
 		# Iterates through rows and populates dictionaries for placeAndRoute
 		for databaseDFIdx, databaseDFRow in self.__database.iterrows():
 			# Get path sizes and add to dictionaries when needed
@@ -490,21 +491,27 @@ class PathDatabase(object):
 			synMapPathDict[pathCriticality].append(synMapPathSize)
 			synOptPathDict[pathCriticality].append(synOptPathSize)
 			placeAndRoutePathDict[pathCriticality].append(placeAndRoutePathSize)
-		# Create plots for detailed analysis
-		fig = make_subplots(rows=2, cols=2, subplot_titles=("synGen",
-		                                                     "synMap",
-		                                                     "synOpt",
-		                                                     "placeAndRoute"))
+		# # Create plots for detailed analysis
+		# fig = make_subplots(rows=2, cols=2, subplot_titles=("synGen",
+		#                                                      "synMap",
+		#                                                      "synOpt",
+		#                                                      "placeAndRoute"))
+		fig = go.Figure()
 		for synGenPathCriticality in sorted(list(synGenPathDict.keys())):
-			fig.add_trace(go.Box(y=synGenPathDict[synGenPathCriticality], boxpoints='all', name=synGenPathCriticality), row=1, col=1)
-		for synMapPathCriticality in sorted(list(synMapPathDict.keys())):
-			fig.add_trace(go.Box(y=synMapPathDict[synMapPathCriticality], boxpoints='all', name=synMapPathCriticality), row=1, col=2)
-		for synOptPathCriticality in sorted(list(synOptPathDict.keys())):
-			fig.add_trace(go.Box(y=synOptPathDict[synOptPathCriticality], boxpoints='all', name=synOptPathCriticality), row=2, col=1)
-		for placeAndRoutePathCriticality in sorted(list(placeAndRoutePathDict.keys())):
-			fig.add_trace(go.Box(y=placeAndRoutePathDict[placeAndRoutePathCriticality], boxpoints='all', name=placeAndRoutePathCriticality), row=2, col=2)
-		fig.update_layout(title="Path Length vs Criticality", height=900, width=1800, showlegend=False)
+			fig.add_trace(go.Box(y=synGenPathDict[synGenPathCriticality], boxpoints='all', name=synGenPathCriticality))
+		fig.update_layout(title="Generic Synthesis Path Length vs Criticality", height=500, width=1000, showlegend=False)
 		fig.show()
+		# for synMapPathCriticality in sorted(list(synMapPathDict.keys())):
+		# 	fig.add_trace(go.Box(y=synMapPathDict[synMapPathCriticality], boxpoints='all', name=synMapPathCriticality), row=1, col=2)
+		# for synOptPathCriticality in sorted(list(synOptPathDict.keys())):
+		# 	fig.add_trace(go.Box(y=synOptPathDict[synOptPathCriticality], boxpoints='all', name=synOptPathCriticality), row=2, col=1)
+		fig = go.Figure()
+		for placeAndRoutePathCriticality in sorted(list(placeAndRoutePathDict.keys())):
+			fig.add_trace(go.Box(y=placeAndRoutePathDict[placeAndRoutePathCriticality], boxpoints='all', name=placeAndRoutePathCriticality))
+		fig.update_layout(title="Generic Synthesis Path Length vs Criticality", height=500, width=1000, showlegend=False)
+		fig.show()
+		# fig.update_layout(title="Path Length vs Criticality", height=900, width=1800, showlegend=False)
+		# fig.show()
 
 	## Plots the path length distributions of a database
 	#
@@ -515,49 +522,74 @@ class PathDatabase(object):
 		synGenPathList = self.__database[self.synGenPathKey].tolist()
 		for synGenPath in synGenPathList:
 			synGenPathLengthList.append(len(synGenPath))
-		# Get list of path length for synMap
-		synMapPathLengthList = []
-		synMapPathList = self.__database[self.synMapPathKey].tolist()
-		for synMapPath in synMapPathList:
-			synMapPathLengthList.append(len(synMapPath))
-		# Get list of path length for synOpt
-		synOptPathLengthList = []
-		synOptPathList = self.__database[self.synOptPathKey].tolist()
-		for synOptPath in synOptPathList:
-			synOptPathLengthList.append(len(synOptPath))
+		# # Get list of path length for synMap
+		# synMapPathLengthList = []
+		# synMapPathList = self.__database[self.synMapPathKey].tolist()
+		# for synMapPath in synMapPathList:
+		# 	synMapPathLengthList.append(len(synMapPath))
+		# # Get list of path length for synOpt
+		# synOptPathLengthList = []
+		# synOptPathList = self.__database[self.synOptPathKey].tolist()
+		# for synOptPath in synOptPathList:
+		# 	synOptPathLengthList.append(len(synOptPath))
 		# Get list of path length for pnr
 		placeAndRoutePathLengthList = []
 		placeAndRoutePathList = self.__database[self.placeAndRoutePathKey].tolist()
 		for placeAndRoutePath in placeAndRoutePathList:
 			placeAndRoutePathLengthList.append(len(placeAndRoutePath))
 		# Create plots for detailed analysis
-		fig = make_subplots(rows=2, cols=2, subplot_titles=(self.synGenPathKey,
-		                                                    self.synMapPathKey,
-		                                                    self.synOptPathKey,
-		                                                    self.placeAndRoutePathKey))
-		fig.add_trace(go.Histogram(x=synGenPathLengthList), row=1, col=1)
-		fig.add_trace(go.Histogram(x=synMapPathLengthList), row=1, col=2)
-		fig.add_trace(go.Histogram(x=synOptPathLengthList), row=2, col=1)
-		fig.add_trace(go.Histogram(x=placeAndRoutePathLengthList), row=2, col=2)
-		fig.update_layout(title="Path Length Distribution", height=900, width=1800, showlegend=False)
+		fig = go.Figure(data=[go.Histogram(x=synGenPathLengthList)])
+		fig.update_layout(title="Generic Synthesis Path Length Distribution", height=500, width=1000, showlegend=False)
 		fig.show()
+		fig = go.Figure(data=[go.Histogram(x=placeAndRoutePathLengthList)])
+		fig.update_layout(title="Place and Route Path Length Distribution", height=500, width=1000, showlegend=False)
+		fig.show()
+		# fig = make_subplots(rows=2, cols=2, subplot_titles=(self.synGenPathKey,
+		#                                                     self.synMapPathKey,
+		#                                                     self.synOptPathKey,
+		#                                                     self.placeAndRoutePathKey))
+		# fig.add_trace(go.Histogram(x=synGenPathLengthList), row=1, col=1)
+		# fig.add_trace(go.Histogram(x=synMapPathLengthList), row=1, col=2)
+		# fig.add_trace(go.Histogram(x=synOptPathLengthList), row=2, col=1)
+		# fig.add_trace(go.Histogram(x=placeAndRoutePathLengthList), row=2, col=2)
+		# fig.update_layout(title="Path Length Distribution", height=900, width=1800, showlegend=False)
+		# fig.show()
 
 	## Plots the delay distributions of a database
 	#
 	# \param  self Instance of DirFileObj class.
 	def plotDelay(self):
 		synGenDelayList = self.__database[self.synGenDelayKey].tolist()
-		synMapDelayList = self.__database[self.synMapDelayKey].tolist()
-		synOptDelayList = self.__database[self.synOptDelayKey].tolist()
+		# synMapDelayList = self.__database[self.synMapDelayKey].tolist()
+		# synOptDelayList = self.__database[self.synOptDelayKey].tolist()
 		placeAndRouteDelayList = self.__database[self.placeAndRouteDelayKey].tolist()
 		# Create plots for detailed analysis
-		fig = make_subplots(rows=2, cols=2, subplot_titles=(self.synGenDelayKey,
-		                                                    self.synMapDelayKey,
-		                                                    self.synOptDelayKey,
-		                                                    self.placeAndRouteDelayKey))
-		fig.add_trace(go.Histogram(x=synGenDelayList), row=1, col=1)
-		fig.add_trace(go.Histogram(x=synMapDelayList), row=1, col=2)
-		fig.add_trace(go.Histogram(x=synOptDelayList), row=2, col=1)
-		fig.add_trace(go.Histogram(x=placeAndRouteDelayList), row=2, col=2)
-		fig.update_layout(title="Delay Distribution", height=900, width=1800, showlegend=False)
+		fig = go.Figure(data=[go.Histogram(x=synGenDelayList)])
+		fig.update_layout(title="Generic Synthesis Delay Distribution", height=500, width=1000, showlegend=False)
+		fig.show()
+		fig = go.Figure(data=[go.Histogram(x=placeAndRouteDelayList)])
+		fig.update_layout(title="Place and Route Delay Distribution", height=500, width=1000, showlegend=False)
+		fig.show()
+		# fig = make_subplots(rows=2, cols=2, subplot_titles=(self.synGenDelayKey,
+		#                                                     self.synMapDelayKey,
+		#                                                     self.synOptDelayKey,
+		#                                                     self.placeAndRouteDelayKey))
+		# fig.add_trace(go.Histogram(x=synGenDelayList), row=1, col=1)
+		# fig.add_trace(go.Histogram(x=synMapDelayList), row=1, col=2)
+		# fig.add_trace(go.Histogram(x=synOptDelayList), row=2, col=1)
+		# fig.add_trace(go.Histogram(x=placeAndRouteDelayList), row=2, col=2)
+		# fig.update_layout(title="Delay Distribution", height=900, width=1800, showlegend=False)
+		# fig.show()
+
+	## Plots how critical paths fluctuate
+	#
+	# \param  self Instance of DirFileObj class.
+	def plotCriticalPathFluctuation(self):
+		synGenDelayList = self.__database[self.synGenDelayKey].tolist()
+		placeAndRouteDelayList = self.__database[self.placeAndRouteDelayKey].tolist()
+		targetCTList = self.__database[self.targetCycleTimeKey].tolist()
+		# Create plots for detailed analysis
+		fig = go.Figure(data=[go.Scatter(x=synGenDelayList,y=placeAndRouteDelayList,name="Place and Route Delay",mode="markers"),
+		                      go.Scatter(x=synGenDelayList,y=synGenDelayList,name="Syn Gen Delay"),
+		                      go.Scatter(x=synGenDelayList,y=targetCTList,name="Target CT")])
 		fig.show()
