@@ -25,34 +25,232 @@ Trainable params: 2,369
 Non-trainable params: 0
 _________________________________________________________________
 Train on 190830 samples, validate on 81784 samples
-Epoch 1/10
-190830/190830 - 12s - loss: 0.3282 - accuracy: 0.8591 - val_loss: 0.2763 - val_accuracy: 0.8878
-Epoch 2/10
-190830/190830 - 12s - loss: 0.2922 - accuracy: 0.8784 - val_loss: 0.2711 - val_accuracy: 0.8907
-Epoch 3/10
-190830/190830 - 11s - loss: 0.2862 - accuracy: 0.8811 - val_loss: 0.2735 - val_accuracy: 0.8899
-Epoch 4/10
-190830/190830 - 11s - loss: 0.2809 - accuracy: 0.8832 - val_loss: 0.2633 - val_accuracy: 0.8937
-Epoch 5/10
-190830/190830 - 12s - loss: 0.2776 - accuracy: 0.8847 - val_loss: 0.2610 - val_accuracy: 0.8951
-Epoch 6/10
-190830/190830 - 11s - loss: 0.2749 - accuracy: 0.8851 - val_loss: 0.2590 - val_accuracy: 0.8946
-Epoch 7/10
-190830/190830 - 12s - loss: 0.2725 - accuracy: 0.8862 - val_loss: 0.2801 - val_accuracy: 0.8801
-Epoch 8/10
-190830/190830 - 11s - loss: 0.2709 - accuracy: 0.8865 - val_loss: 0.2681 - val_accuracy: 0.8864
-Epoch 9/10
-190830/190830 - 11s - loss: 0.2678 - accuracy: 0.8887 - val_loss: 0.2514 - val_accuracy: 0.8969
-Epoch 10/10
+Epoch 1/100
+190830/190830 - 11s - loss: 0.3275 - accuracy: 0.8591 - val_loss: 0.3055 - val_accuracy: 0.8721
+Epoch 2/100
+190830/190830 - 11s - loss: 0.2916 - accuracy: 0.8785 - val_loss: 0.2706 - val_accuracy: 0.8907
+Epoch 3/100
+190830/190830 - 11s - loss: 0.2878 - accuracy: 0.8802 - val_loss: 0.3470 - val_accuracy: 0.8385
+Epoch 4/100
+190830/190830 - 11s - loss: 0.2828 - accuracy: 0.8823 - val_loss: 0.2663 - val_accuracy: 0.8922
+Epoch 5/100
+190830/190830 - 12s - loss: 0.2787 - accuracy: 0.8836 - val_loss: 0.2607 - val_accuracy: 0.8951
+Epoch 6/100
+190830/190830 - 11s - loss: 0.2759 - accuracy: 0.8849 - val_loss: 0.2627 - val_accuracy: 0.8929
+Epoch 7/100
+190830/190830 - 11s - loss: 0.2730 - accuracy: 0.8861 - val_loss: 0.2558 - val_accuracy: 0.8953
+Epoch 8/100
+190830/190830 - 11s - loss: 0.2697 - accuracy: 0.8879 - val_loss: 0.2575 - val_accuracy: 0.8964
+Epoch 9/100
+190830/190830 - 11s - loss: 0.2699 - accuracy: 0.8878 - val_loss: 0.2607 - val_accuracy: 0.8906
+Epoch 10/100
 
 Epoch 00010: saving model to neuralNetworkTraining/nn~0010.ckpt
-190830/190830 - 11s - loss: 0.2657 - accuracy: 0.8892 - val_loss: 0.2598 - val_accuracy: 0.8941
+190830/190830 - 11s - loss: 0.2674 - accuracy: 0.8887 - val_loss: 0.2527 - val_accuracy: 0.8970
+Epoch 11/100
+190830/190830 - 11s - loss: 0.2660 - accuracy: 0.8889 - val_loss: 0.2550 - val_accuracy: 0.8953
+Epoch 12/100
+190830/190830 - 11s - loss: 0.2649 - accuracy: 0.8894 - val_loss: 0.2577 - val_accuracy: 0.8922
+Epoch 13/100
+190830/190830 - 11s - loss: 0.2620 - accuracy: 0.8908 - val_loss: 0.2499 - val_accuracy: 0.8986
+Epoch 14/100
+190830/190830 - 11s - loss: 0.2614 - accuracy: 0.8911 - val_loss: 0.2541 - val_accuracy: 0.8946
+Epoch 15/100
+190830/190830 - 11s - loss: 0.2598 - accuracy: 0.8918 - val_loss: 0.2480 - val_accuracy: 0.8970
+Epoch 16/100
+190830/190830 - 11s - loss: 0.2583 - accuracy: 0.8920 - val_loss: 0.2510 - val_accuracy: 0.8941
+Epoch 17/100
+190830/190830 - 11s - loss: 0.2580 - accuracy: 0.8920 - val_loss: 0.2554 - val_accuracy: 0.8971
+Epoch 18/100
+190830/190830 - 12s - loss: 0.2565 - accuracy: 0.8926 - val_loss: 0.2481 - val_accuracy: 0.8968
+Epoch 19/100
+190830/190830 - 11s - loss: 0.2551 - accuracy: 0.8928 - val_loss: 0.2429 - val_accuracy: 0.8997
+Epoch 20/100
+
+Epoch 00020: saving model to neuralNetworkTraining/nn~0020.ckpt
+190830/190830 - 11s - loss: 0.2550 - accuracy: 0.8925 - val_loss: 0.2467 - val_accuracy: 0.8962
+Epoch 21/100
+190830/190830 - 11s - loss: 0.2535 - accuracy: 0.8935 - val_loss: 0.2513 - val_accuracy: 0.8944
+Epoch 22/100
+190830/190830 - 12s - loss: 0.2525 - accuracy: 0.8936 - val_loss: 0.2413 - val_accuracy: 0.8995
+Epoch 23/100
+190830/190830 - 11s - loss: 0.2521 - accuracy: 0.8941 - val_loss: 0.2556 - val_accuracy: 0.8944
+Epoch 24/100
+190830/190830 - 12s - loss: 0.2510 - accuracy: 0.8942 - val_loss: 0.2407 - val_accuracy: 0.8960
+Epoch 25/100
+190830/190830 - 11s - loss: 0.2510 - accuracy: 0.8944 - val_loss: 0.2438 - val_accuracy: 0.8971
+Epoch 26/100
+190830/190830 - 12s - loss: 0.2501 - accuracy: 0.8946 - val_loss: 0.2400 - val_accuracy: 0.8996
+Epoch 27/100
+190830/190830 - 12s - loss: 0.2494 - accuracy: 0.8951 - val_loss: 0.2382 - val_accuracy: 0.9014
+Epoch 28/100
+190830/190830 - 12s - loss: 0.2481 - accuracy: 0.8949 - val_loss: 0.2411 - val_accuracy: 0.8969
+Epoch 29/100
+190830/190830 - 11s - loss: 0.2480 - accuracy: 0.8951 - val_loss: 0.2371 - val_accuracy: 0.8994
+Epoch 30/100
+
+Epoch 00030: saving model to neuralNetworkTraining/nn~0030.ckpt
+190830/190830 - 12s - loss: 0.2471 - accuracy: 0.8952 - val_loss: 0.2376 - val_accuracy: 0.9013
+Epoch 31/100
+190830/190830 - 11s - loss: 0.2467 - accuracy: 0.8954 - val_loss: 0.2354 - val_accuracy: 0.9005
+Epoch 32/100
+190830/190830 - 11s - loss: 0.2463 - accuracy: 0.8958 - val_loss: 0.2371 - val_accuracy: 0.9003
+Epoch 33/100
+190830/190830 - 12s - loss: 0.2455 - accuracy: 0.8958 - val_loss: 0.2342 - val_accuracy: 0.9021
+Epoch 34/100
+190830/190830 - 12s - loss: 0.2456 - accuracy: 0.8961 - val_loss: 0.2394 - val_accuracy: 0.8997
+Epoch 35/100
+190830/190830 - 12s - loss: 0.2444 - accuracy: 0.8963 - val_loss: 0.2332 - val_accuracy: 0.9023
+Epoch 36/100
+190830/190830 - 11s - loss: 0.2437 - accuracy: 0.8960 - val_loss: 0.2337 - val_accuracy: 0.9010
+Epoch 37/100
+190830/190830 - 11s - loss: 0.2438 - accuracy: 0.8969 - val_loss: 0.2369 - val_accuracy: 0.9004
+Epoch 38/100
+190830/190830 - 11s - loss: 0.2420 - accuracy: 0.8975 - val_loss: 0.2313 - val_accuracy: 0.9021
+Epoch 39/100
+190830/190830 - 11s - loss: 0.2427 - accuracy: 0.8968 - val_loss: 0.2381 - val_accuracy: 0.8963
+Epoch 40/100
+
+Epoch 00040: saving model to neuralNetworkTraining/nn~0040.ckpt
+190830/190830 - 11s - loss: 0.2419 - accuracy: 0.8971 - val_loss: 0.2336 - val_accuracy: 0.9017
+Epoch 41/100
+190830/190830 - 11s - loss: 0.2411 - accuracy: 0.8977 - val_loss: 0.2307 - val_accuracy: 0.9017
+Epoch 42/100
+190830/190830 - 11s - loss: 0.2409 - accuracy: 0.8980 - val_loss: 0.2328 - val_accuracy: 0.8999
+Epoch 43/100
+190830/190830 - 11s - loss: 0.2405 - accuracy: 0.8974 - val_loss: 0.2310 - val_accuracy: 0.9025
+Epoch 44/100
+190830/190830 - 12s - loss: 0.2403 - accuracy: 0.8976 - val_loss: 0.2352 - val_accuracy: 0.9001
+Epoch 45/100
+190830/190830 - 11s - loss: 0.2399 - accuracy: 0.8977 - val_loss: 0.2294 - val_accuracy: 0.9030
+Epoch 46/100
+190830/190830 - 11s - loss: 0.2396 - accuracy: 0.8979 - val_loss: 0.2290 - val_accuracy: 0.9032
+Epoch 47/100
+190830/190830 - 12s - loss: 0.2397 - accuracy: 0.8980 - val_loss: 0.2285 - val_accuracy: 0.9033
+Epoch 48/100
+190830/190830 - 11s - loss: 0.2394 - accuracy: 0.8982 - val_loss: 0.2281 - val_accuracy: 0.9037
+Epoch 49/100
+190830/190830 - 12s - loss: 0.2381 - accuracy: 0.8983 - val_loss: 0.2286 - val_accuracy: 0.9032
+Epoch 50/100
+
+Epoch 00050: saving model to neuralNetworkTraining/nn~0050.ckpt
+190830/190830 - 12s - loss: 0.2378 - accuracy: 0.8979 - val_loss: 0.2286 - val_accuracy: 0.9035
+Epoch 51/100
+190830/190830 - 11s - loss: 0.2371 - accuracy: 0.8989 - val_loss: 0.2326 - val_accuracy: 0.9015
+Epoch 52/100
+190830/190830 - 11s - loss: 0.2376 - accuracy: 0.8978 - val_loss: 0.2290 - val_accuracy: 0.9028
+Epoch 53/100
+190830/190830 - 12s - loss: 0.2379 - accuracy: 0.8979 - val_loss: 0.2280 - val_accuracy: 0.9038
+Epoch 54/100
+190830/190830 - 12s - loss: 0.2373 - accuracy: 0.8986 - val_loss: 0.2285 - val_accuracy: 0.9024
+Epoch 55/100
+190830/190830 - 11s - loss: 0.2373 - accuracy: 0.8983 - val_loss: 0.2267 - val_accuracy: 0.9032
+Epoch 56/100
+190830/190830 - 11s - loss: 0.2365 - accuracy: 0.8989 - val_loss: 0.2272 - val_accuracy: 0.9037
+Epoch 57/100
+190830/190830 - 12s - loss: 0.2368 - accuracy: 0.8985 - val_loss: 0.2296 - val_accuracy: 0.9018
+Epoch 58/100
+190830/190830 - 11s - loss: 0.2366 - accuracy: 0.8986 - val_loss: 0.2271 - val_accuracy: 0.9035
+Epoch 59/100
+190830/190830 - 12s - loss: 0.2357 - accuracy: 0.8988 - val_loss: 0.2246 - val_accuracy: 0.9042
+Epoch 60/100
+
+Epoch 00060: saving model to neuralNetworkTraining/nn~0060.ckpt
+190830/190830 - 11s - loss: 0.2355 - accuracy: 0.8990 - val_loss: 0.2257 - val_accuracy: 0.9044
+Epoch 61/100
+190830/190830 - 11s - loss: 0.2355 - accuracy: 0.8992 - val_loss: 0.2265 - val_accuracy: 0.9036
+Epoch 62/100
+190830/190830 - 11s - loss: 0.2353 - accuracy: 0.8989 - val_loss: 0.2281 - val_accuracy: 0.9029
+Epoch 63/100
+190830/190830 - 11s - loss: 0.2347 - accuracy: 0.8996 - val_loss: 0.2251 - val_accuracy: 0.9037
+Epoch 64/100
+190830/190830 - 11s - loss: 0.2350 - accuracy: 0.8992 - val_loss: 0.2278 - val_accuracy: 0.9032
+Epoch 65/100
+190830/190830 - 11s - loss: 0.2352 - accuracy: 0.8989 - val_loss: 0.2272 - val_accuracy: 0.9018
+Epoch 66/100
+190830/190830 - 11s - loss: 0.2344 - accuracy: 0.8994 - val_loss: 0.2245 - val_accuracy: 0.9052
+Epoch 67/100
+190830/190830 - 11s - loss: 0.2346 - accuracy: 0.8990 - val_loss: 0.2244 - val_accuracy: 0.9048
+Epoch 68/100
+190830/190830 - 12s - loss: 0.2341 - accuracy: 0.8996 - val_loss: 0.2240 - val_accuracy: 0.9056
+Epoch 69/100
+190830/190830 - 12s - loss: 0.2338 - accuracy: 0.8999 - val_loss: 0.2235 - val_accuracy: 0.9047
+Epoch 70/100
+
+Epoch 00070: saving model to neuralNetworkTraining/nn~0070.ckpt
+190830/190830 - 11s - loss: 0.2336 - accuracy: 0.8997 - val_loss: 0.2239 - val_accuracy: 0.9050
+Epoch 71/100
+190830/190830 - 11s - loss: 0.2343 - accuracy: 0.8992 - val_loss: 0.2238 - val_accuracy: 0.9049
+Epoch 72/100
+190830/190830 - 11s - loss: 0.2335 - accuracy: 0.9000 - val_loss: 0.2255 - val_accuracy: 0.9034
+Epoch 73/100
+190830/190830 - 11s - loss: 0.2330 - accuracy: 0.9000 - val_loss: 0.2237 - val_accuracy: 0.9043
+Epoch 74/100
+190830/190830 - 12s - loss: 0.2335 - accuracy: 0.8993 - val_loss: 0.2246 - val_accuracy: 0.9042
+Epoch 75/100
+190830/190830 - 11s - loss: 0.2325 - accuracy: 0.9006 - val_loss: 0.2264 - val_accuracy: 0.9027
+Epoch 76/100
+190830/190830 - 11s - loss: 0.2324 - accuracy: 0.9006 - val_loss: 0.2227 - val_accuracy: 0.9052
+Epoch 77/100
+190830/190830 - 12s - loss: 0.2327 - accuracy: 0.9002 - val_loss: 0.2228 - val_accuracy: 0.9050
+Epoch 78/100
+190830/190830 - 11s - loss: 0.2328 - accuracy: 0.8998 - val_loss: 0.2246 - val_accuracy: 0.9039
+Epoch 79/100
+190830/190830 - 12s - loss: 0.2318 - accuracy: 0.8999 - val_loss: 0.2242 - val_accuracy: 0.9041
+Epoch 80/100
+
+Epoch 00080: saving model to neuralNetworkTraining/nn~0080.ckpt
+190830/190830 - 11s - loss: 0.2318 - accuracy: 0.9001 - val_loss: 0.2237 - val_accuracy: 0.9042
+Epoch 81/100
+190830/190830 - 11s - loss: 0.2317 - accuracy: 0.9002 - val_loss: 0.2224 - val_accuracy: 0.9047
+Epoch 82/100
+190830/190830 - 11s - loss: 0.2318 - accuracy: 0.9003 - val_loss: 0.2236 - val_accuracy: 0.9044
+Epoch 83/100
+190830/190830 - 11s - loss: 0.2315 - accuracy: 0.9005 - val_loss: 0.2219 - val_accuracy: 0.9058
+Epoch 84/100
+190830/190830 - 12s - loss: 0.2313 - accuracy: 0.9003 - val_loss: 0.2227 - val_accuracy: 0.9043
+Epoch 85/100
+190830/190830 - 12s - loss: 0.2313 - accuracy: 0.9007 - val_loss: 0.2220 - val_accuracy: 0.9042
+Epoch 86/100
+190830/190830 - 11s - loss: 0.2309 - accuracy: 0.9007 - val_loss: 0.2213 - val_accuracy: 0.9054
+Epoch 87/100
+190830/190830 - 11s - loss: 0.2313 - accuracy: 0.9007 - val_loss: 0.2300 - val_accuracy: 0.8968
+Epoch 88/100
+190830/190830 - 12s - loss: 0.2307 - accuracy: 0.9005 - val_loss: 0.2219 - val_accuracy: 0.9047
+Epoch 89/100
+190830/190830 - 11s - loss: 0.2307 - accuracy: 0.9006 - val_loss: 0.2224 - val_accuracy: 0.9037
+Epoch 90/100
+
+Epoch 00090: saving model to neuralNetworkTraining/nn~0090.ckpt
+190830/190830 - 12s - loss: 0.2307 - accuracy: 0.9002 - val_loss: 0.2208 - val_accuracy: 0.9058
+Epoch 91/100
+190830/190830 - 12s - loss: 0.2303 - accuracy: 0.9007 - val_loss: 0.2325 - val_accuracy: 0.8969
+Epoch 92/100
+190830/190830 - 11s - loss: 0.2300 - accuracy: 0.9008 - val_loss: 0.2203 - val_accuracy: 0.9052
+Epoch 93/100
+190830/190830 - 11s - loss: 0.2299 - accuracy: 0.9006 - val_loss: 0.2208 - val_accuracy: 0.9061
+Epoch 94/100
+190830/190830 - 11s - loss: 0.2304 - accuracy: 0.9011 - val_loss: 0.2211 - val_accuracy: 0.9055
+Epoch 95/100
+190830/190830 - 11s - loss: 0.2296 - accuracy: 0.9007 - val_loss: 0.2212 - val_accuracy: 0.9054
+Epoch 96/100
+190830/190830 - 11s - loss: 0.2294 - accuracy: 0.9007 - val_loss: 0.2216 - val_accuracy: 0.9043
+Epoch 97/100
+190830/190830 - 11s - loss: 0.2298 - accuracy: 0.9009 - val_loss: 0.2203 - val_accuracy: 0.9051
+Epoch 98/100
+190830/190830 - 11s - loss: 0.2297 - accuracy: 0.9007 - val_loss: 0.2197 - val_accuracy: 0.9066
+Epoch 99/100
+190830/190830 - 12s - loss: 0.2296 - accuracy: 0.9006 - val_loss: 0.2206 - val_accuracy: 0.9057
+Epoch 100/100
+
+Epoch 00100: saving model to neuralNetworkTraining/nn~0100.ckpt
+190830/190830 - 11s - loss: 0.2294 - accuracy: 0.9010 - val_loss: 0.2201 - val_accuracy: 0.9056
 Checking test data
   Found 47674 labels
   Collected 47674 predictions
 	Pred. Neg	Pred. Pos
-Act. Neg	35285	235
-Act. Pos	5614	6540
-Precision = 0.965314
-Recall = 0.538094
-F1 = 0.691003
+Act. Neg	35326	194
+Act. Pos	6080	6074
+Precision = 0.969049
+Recall = 0.499753
+F1 = 0.659429
