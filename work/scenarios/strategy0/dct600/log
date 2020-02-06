@@ -26,33 +26,33 @@ Non-trainable params: 0
 _________________________________________________________________
 Train on 190830 samples, validate on 81784 samples
 Epoch 1/10
-190830/190830 - 13s - loss: 0.2869 - accuracy: 0.8803 - val_loss: 0.2613 - val_accuracy: 0.8912
+190830/190830 - 12s - loss: 0.3303 - accuracy: 0.8590 - val_loss: 0.2762 - val_accuracy: 0.8885
 Epoch 2/10
-190830/190830 - 11s - loss: 0.2640 - accuracy: 0.8904 - val_loss: 0.2739 - val_accuracy: 0.8858
+190830/190830 - 11s - loss: 0.2938 - accuracy: 0.8781 - val_loss: 0.2716 - val_accuracy: 0.8910
 Epoch 3/10
-190830/190830 - 11s - loss: 0.2586 - accuracy: 0.8924 - val_loss: 0.2610 - val_accuracy: 0.8933
+190830/190830 - 11s - loss: 0.2870 - accuracy: 0.8808 - val_loss: 0.2729 - val_accuracy: 0.8851
 Epoch 4/10
-190830/190830 - 12s - loss: 0.2554 - accuracy: 0.8933 - val_loss: 0.2555 - val_accuracy: 0.8963
+190830/190830 - 11s - loss: 0.2824 - accuracy: 0.8823 - val_loss: 0.2624 - val_accuracy: 0.8932
 Epoch 5/10
-190830/190830 - 12s - loss: 0.2522 - accuracy: 0.8945 - val_loss: 0.2478 - val_accuracy: 0.8937
+190830/190830 - 12s - loss: 0.2784 - accuracy: 0.8845 - val_loss: 0.2636 - val_accuracy: 0.8934
 Epoch 6/10
-190830/190830 - 12s - loss: 0.2511 - accuracy: 0.8943 - val_loss: 0.2439 - val_accuracy: 0.8979
+190830/190830 - 12s - loss: 0.2760 - accuracy: 0.8852 - val_loss: 0.3005 - val_accuracy: 0.8784
 Epoch 7/10
-190830/190830 - 12s - loss: 0.2492 - accuracy: 0.8950 - val_loss: 0.2413 - val_accuracy: 0.8989
+190830/190830 - 11s - loss: 0.2736 - accuracy: 0.8861 - val_loss: 0.2598 - val_accuracy: 0.8914
 Epoch 8/10
-190830/190830 - 12s - loss: 0.2484 - accuracy: 0.8952 - val_loss: 0.2404 - val_accuracy: 0.8983
+190830/190830 - 12s - loss: 0.2705 - accuracy: 0.8872 - val_loss: 0.2571 - val_accuracy: 0.8956
 Epoch 9/10
-190830/190830 - 12s - loss: 0.2474 - accuracy: 0.8950 - val_loss: 0.2438 - val_accuracy: 0.8987
+190830/190830 - 12s - loss: 0.2685 - accuracy: 0.8881 - val_loss: 0.2563 - val_accuracy: 0.8953
 Epoch 10/10
 
 Epoch 00010: saving model to neuralNetworkTraining/nn~0010.ckpt
-190830/190830 - 12s - loss: 0.2459 - accuracy: 0.8957 - val_loss: 0.2379 - val_accuracy: 0.8998
+190830/190830 - 12s - loss: 0.2672 - accuracy: 0.8886 - val_loss: 0.2515 - val_accuracy: 0.8985
 Checking test data
   Found 47674 labels
   Collected 47674 predictions
 	Pred. Neg	Pred. Pos
-Act. Neg	31640	593
-Act. Pos	5075	10366
-Precision = 0.945889
-Recall = 0.671330
-F1 = 0.785303
+Act. Neg	32031	202
+Act. Pos	6395	9046
+Precision = 0.978157
+Recall = 0.585843
+F1 = 0.732796

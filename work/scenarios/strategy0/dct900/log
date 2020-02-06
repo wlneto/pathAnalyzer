@@ -12,47 +12,47 @@ Model: "sequential"
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-conv2d (Conv2D)              (None, 64, 1, 16)         160       
+conv2d (Conv2D)              (None, 64, 1, 32)         320       
 _________________________________________________________________
-dropout (Dropout)            (None, 64, 1, 16)         0         
+dropout (Dropout)            (None, 64, 1, 32)         0         
 _________________________________________________________________
-flatten (Flatten)            (None, 1024)              0         
+flatten (Flatten)            (None, 2048)              0         
 _________________________________________________________________
-dense (Dense)                (None, 1)                 1025      
+dense (Dense)                (None, 1)                 2049      
 =================================================================
-Total params: 1,185
-Trainable params: 1,185
+Total params: 2,369
+Trainable params: 2,369
 Non-trainable params: 0
 _________________________________________________________________
 Train on 190830 samples, validate on 81784 samples
 Epoch 1/10
-190830/190830 - 11s - loss: 0.3296 - accuracy: 0.8581 - val_loss: 0.2927 - val_accuracy: 0.8782
+190830/190830 - 11s - loss: 0.3277 - accuracy: 0.8594 - val_loss: 0.2837 - val_accuracy: 0.8829
 Epoch 2/10
-190830/190830 - 10s - loss: 0.2901 - accuracy: 0.8786 - val_loss: 0.2928 - val_accuracy: 0.8755
+190830/190830 - 11s - loss: 0.2910 - accuracy: 0.8784 - val_loss: 0.2767 - val_accuracy: 0.8845
 Epoch 3/10
-190830/190830 - 10s - loss: 0.2855 - accuracy: 0.8809 - val_loss: 0.2687 - val_accuracy: 0.8904
+190830/190830 - 12s - loss: 0.2862 - accuracy: 0.8809 - val_loss: 0.2749 - val_accuracy: 0.8871
 Epoch 4/10
-190830/190830 - 10s - loss: 0.2827 - accuracy: 0.8819 - val_loss: 0.2663 - val_accuracy: 0.8909
+190830/190830 - 11s - loss: 0.2828 - accuracy: 0.8825 - val_loss: 0.2671 - val_accuracy: 0.8904
 Epoch 5/10
-190830/190830 - 10s - loss: 0.2795 - accuracy: 0.8833 - val_loss: 0.2707 - val_accuracy: 0.8889
+190830/190830 - 12s - loss: 0.2796 - accuracy: 0.8838 - val_loss: 0.2622 - val_accuracy: 0.8915
 Epoch 6/10
-190830/190830 - 11s - loss: 0.2766 - accuracy: 0.8848 - val_loss: 0.2635 - val_accuracy: 0.8919
+190830/190830 - 11s - loss: 0.2771 - accuracy: 0.8842 - val_loss: 0.2577 - val_accuracy: 0.8936
 Epoch 7/10
-190830/190830 - 11s - loss: 0.2757 - accuracy: 0.8853 - val_loss: 0.2742 - val_accuracy: 0.8840
+190830/190830 - 11s - loss: 0.2740 - accuracy: 0.8861 - val_loss: 0.2610 - val_accuracy: 0.8932
 Epoch 8/10
-190830/190830 - 11s - loss: 0.2735 - accuracy: 0.8858 - val_loss: 0.2608 - val_accuracy: 0.8921
+190830/190830 - 11s - loss: 0.2704 - accuracy: 0.8871 - val_loss: 0.2873 - val_accuracy: 0.8745
 Epoch 9/10
-190830/190830 - 11s - loss: 0.2720 - accuracy: 0.8870 - val_loss: 0.2599 - val_accuracy: 0.8938
+190830/190830 - 11s - loss: 0.2684 - accuracy: 0.8881 - val_loss: 0.2530 - val_accuracy: 0.8958
 Epoch 10/10
 
 Epoch 00010: saving model to neuralNetworkTraining/nn~0010.ckpt
-190830/190830 - 11s - loss: 0.2705 - accuracy: 0.8875 - val_loss: 0.2574 - val_accuracy: 0.8934
+190830/190830 - 11s - loss: 0.2664 - accuracy: 0.8892 - val_loss: 0.2532 - val_accuracy: 0.8957
 Checking test data
   Found 47674 labels
   Collected 47674 predictions
 	Pred. Neg	Pred. Pos
-Act. Neg	41403	34
-Act. Pos	4514	1723
-Precision = 0.980649
-Recall = 0.276255
-F1 = 0.431073
+Act. Neg	41261	176
+Act. Pos	4456	1781
+Precision = 0.910066
+Recall = 0.285554
+F1 = 0.434708

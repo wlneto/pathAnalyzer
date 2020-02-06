@@ -22,7 +22,7 @@ strategy = 0
 testCircuitName = "aes"
 testCircuitDelay = 200
 trainCircuit = "pico-rv"
-epochs = 10
+epochs = 100
 dataTypeKey = "dataType"
 featureTensorKey = "featureTensor"
 labelKey = "label"
@@ -126,7 +126,7 @@ model = tf.keras.models.Sequential()
 # model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(8, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Conv2D(16, (convFilterDim,convFilterDim), activation='sigmoid', input_shape=featureTensorShape))
+model.add(tf.keras.layers.Conv2D(32, (convFilterDim,convFilterDim), activation='sigmoid', input_shape=featureTensorShape))
 model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Conv2D(32, (3,3), activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
