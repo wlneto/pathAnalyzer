@@ -442,20 +442,26 @@ class PathDatabase(object):
 				placeAndRouteCTDict[placeAndRouteCT] = []
 			placeAndRouteCTDict[placeAndRouteCT].append(placeAndRoutePathSize)
 		# Create plots for detailed analysis
-		fig = make_subplots(rows=2, cols=2, subplot_titles=(self.targetCycleTimeKey,
-		                                                    self.targetCycleTimeKey,
-		                                                    self.targetCycleTimeKey,
-		                                                    self.targetCycleTimeKey))
+		# fig = make_subplots(rows=2, cols=2, subplot_titles=(self.targetCycleTimeKey,
+		#                                                     self.targetCycleTimeKey,
+		#                                                     self.targetCycleTimeKey,
+		#                                                     self.targetCycleTimeKey))                                                 "placeAndRoute"))
+		fig = go.Figure()
 		for synGenCT in sorted(list(synGenCTDict.keys())):
-			fig.add_trace(go.Box(y=synGenCTDict[synGenCT], boxpoints='all', name=synGenCT), row=1, col=1)
-		for synMapCT in sorted(list(synMapCTDict.keys())):
-			fig.add_trace(go.Box(y=synMapCTDict[synMapCT], boxpoints='all', name=synMapCT), row=1, col=2)
-		for synOptCT in sorted(list(synOptCTDict.keys())):
-			fig.add_trace(go.Box(y=synOptCTDict[synOptCT], boxpoints='all', name=synOptCT), row=2, col=1)
-		for placeAndRouteCT in sorted(list(placeAndRouteCTDict.keys())):
-			fig.add_trace(go.Box(y=placeAndRouteCTDict[placeAndRouteCT], boxpoints='all', name=placeAndRouteCT), row=2, col=2)
-		fig.update_layout(title="Path vs CT", height=900, width=1800, showlegend=False)
+			fig.add_trace(go.Box(y=synGenCTDict[synGenCT], boxpoints='all', name=synGenCT))
+		fig.update_layout(title="Generic Synthesis Path Length vs CT", xaxis_title="Target CT", yaxis_title="Path Length Distribution", height=360, width=720, showlegend=True)
 		fig.show()
+		# for synMapCT in sorted(list(synMapCTDict.keys())):
+		# 	fig.add_trace(go.Box(y=synMapCTDict[synMapCT], boxpoints='all', name=synMapCT), row=1, col=2)
+		# for synOptCT in sorted(list(synOptCTDict.keys())):
+		# 	fig.add_trace(go.Box(y=synOptCTDict[synOptCT], boxpoints='all', name=synOptCT), row=2, col=1)
+		fig = go.Figure()
+		for placeAndRouteCT in sorted(list(placeAndRouteCTDict.keys())):
+			fig.add_trace(go.Box(y=placeAndRouteCTDict[placeAndRouteCT], boxpoints='all', name=placeAndRouteCT))
+		fig.update_layout(title="Place and Route Path Length vs CT", xaxis_title="Target CT", yaxis_title="Path Length Distribution", height=360, width=720, showlegend=True)
+		fig.show()
+		# fig.update_layout(title="Path vs CT", height=900, width=1800, showlegend=True)
+		# fig.show()
 
 	## Plots path length vs the criticality of paths of a database
 	#
@@ -498,8 +504,8 @@ class PathDatabase(object):
 		#                                                      "placeAndRoute"))
 		fig = go.Figure()
 		for synGenPathCriticality in sorted(list(synGenPathDict.keys())):
-			fig.add_trace(go.Box(y=synGenPathDict[synGenPathCriticality], boxpoints='all', name=synGenPathCriticality))
-		fig.update_layout(title="Generic Synthesis Path Length vs Criticality", height=500, width=1000, showlegend=False)
+			fig.add_trace(go.Box(y=synGenPathDict[synGenPathCriticality], boxpoints='all', name=str(int(100*float(synGenPathCriticality)))))
+		fig.update_layout(title="Generic Synthesis Path Length vs Criticality", xaxis_title="Path Criticality (%)", yaxis_title="Path Length Distribution", height=360, width=720, showlegend=True)
 		fig.show()
 		# for synMapPathCriticality in sorted(list(synMapPathDict.keys())):
 		# 	fig.add_trace(go.Box(y=synMapPathDict[synMapPathCriticality], boxpoints='all', name=synMapPathCriticality), row=1, col=2)
@@ -508,9 +514,9 @@ class PathDatabase(object):
 		fig = go.Figure()
 		for placeAndRoutePathCriticality in sorted(list(placeAndRoutePathDict.keys())):
 			fig.add_trace(go.Box(y=placeAndRoutePathDict[placeAndRoutePathCriticality], boxpoints='all', name=placeAndRoutePathCriticality))
-		fig.update_layout(title="Generic Synthesis Path Length vs Criticality", height=500, width=1000, showlegend=False)
+		fig.update_layout(title="Place and Route Path Length vs Criticality", xaxis_title="Path Criticality", yaxis_title="Path Length Distribution", height=360, width=720, showlegend=True)
 		fig.show()
-		# fig.update_layout(title="Path Length vs Criticality", height=900, width=1800, showlegend=False)
+		# fig.update_layout(title="Path Length vs Criticality", height=900, width=1800, showlegend=True)
 		# fig.show()
 
 	## Plots the path length distributions of a database
@@ -539,10 +545,10 @@ class PathDatabase(object):
 			placeAndRoutePathLengthList.append(len(placeAndRoutePath))
 		# Create plots for detailed analysis
 		fig = go.Figure(data=[go.Histogram(x=synGenPathLengthList)])
-		fig.update_layout(title="Generic Synthesis Path Length Distribution", height=500, width=1000, showlegend=False)
+		fig.update_layout(title="Generic Synthesis Path Length Distribution", xaxis_title="Path Length", yaxis_title="Frequency", height=360, width=720, showlegend=True)
 		fig.show()
 		fig = go.Figure(data=[go.Histogram(x=placeAndRoutePathLengthList)])
-		fig.update_layout(title="Place and Route Path Length Distribution", height=500, width=1000, showlegend=False)
+		fig.update_layout(title="Place and Route Path Length Distribution", xaxis_title="Path Length", yaxis_title="Frequency", height=360, width=720, showlegend=True)
 		fig.show()
 		# fig = make_subplots(rows=2, cols=2, subplot_titles=(self.synGenPathKey,
 		#                                                     self.synMapPathKey,
@@ -552,7 +558,7 @@ class PathDatabase(object):
 		# fig.add_trace(go.Histogram(x=synMapPathLengthList), row=1, col=2)
 		# fig.add_trace(go.Histogram(x=synOptPathLengthList), row=2, col=1)
 		# fig.add_trace(go.Histogram(x=placeAndRoutePathLengthList), row=2, col=2)
-		# fig.update_layout(title="Path Length Distribution", height=900, width=1800, showlegend=False)
+		# fig.update_layout(title="Path Length Distribution", height=900, width=1800, showlegend=True)
 		# fig.show()
 
 	## Plots the delay distributions of a database
@@ -565,10 +571,10 @@ class PathDatabase(object):
 		placeAndRouteDelayList = self.__database[self.placeAndRouteDelayKey].tolist()
 		# Create plots for detailed analysis
 		fig = go.Figure(data=[go.Histogram(x=synGenDelayList)])
-		fig.update_layout(title="Generic Synthesis Delay Distribution", height=500, width=1000, showlegend=False)
+		fig.update_layout(title="Generic Synthesis Delay Distribution", xaxis_title="Path Delay", yaxis_title="Frequency", height=360, width=720, showlegend=True)
 		fig.show()
 		fig = go.Figure(data=[go.Histogram(x=placeAndRouteDelayList)])
-		fig.update_layout(title="Place and Route Delay Distribution", height=500, width=1000, showlegend=False)
+		fig.update_layout(title="Place and Route Delay Distribution", xaxis_title="Path Delay", yaxis_title="Frequency", height=360, width=720, showlegend=True)
 		fig.show()
 		# fig = make_subplots(rows=2, cols=2, subplot_titles=(self.synGenDelayKey,
 		#                                                     self.synMapDelayKey,
@@ -578,18 +584,25 @@ class PathDatabase(object):
 		# fig.add_trace(go.Histogram(x=synMapDelayList), row=1, col=2)
 		# fig.add_trace(go.Histogram(x=synOptDelayList), row=2, col=1)
 		# fig.add_trace(go.Histogram(x=placeAndRouteDelayList), row=2, col=2)
-		# fig.update_layout(title="Delay Distribution", height=900, width=1800, showlegend=False)
+		# fig.update_layout(title="Delay Distribution", height=900, width=1800, showlegend=True)
 		# fig.show()
 
 	## Plots how critical paths fluctuate
 	#
 	# \param  self Instance of DirFileObj class.
 	def plotCriticalPathFluctuation(self):
-		synGenDelayList = self.__database[self.synGenDelayKey].tolist()
-		placeAndRouteDelayList = self.__database[self.placeAndRouteDelayKey].tolist()
-		targetCTList = self.__database[self.targetCycleTimeKey].tolist()
+		database = self.__database[self.__database[self.synGenDelayKey] > 0.0]
+		synGenDelayList = database[self.synGenDelayKey].tolist()
+		placeAndRouteDelayList = database[self.placeAndRouteDelayKey].tolist()
+		targetCTList = database[self.targetCycleTimeKey].tolist()
+		criticalList = []
+		for targetCT in targetCTList:
+			criticalList.append(0.9*targetCT)
 		# Create plots for detailed analysis
 		fig = go.Figure(data=[go.Scatter(x=synGenDelayList,y=placeAndRouteDelayList,name="Place and Route Delay",mode="markers"),
 		                      go.Scatter(x=synGenDelayList,y=synGenDelayList,name="Syn Gen Delay"),
-		                      go.Scatter(x=synGenDelayList,y=targetCTList,name="Target CT")])
+		                      go.Scatter(x=synGenDelayList,y=targetCTList,name="Target CT (%d)" % int(targetCT)),
+		                      go.Scatter(x=synGenDelayList,y=criticalList,name="Critical CT (90%)")])
+		fig.update_layout(title="Path Criticality Fluctiation", xaxis_title="Generic Synthesis Path Delay [ps]", yaxis_title="Path Delay [ps]", height=360, width=720, showlegend=True, legend_orientation="h", legend=dict(x=0, y=1.2))
 		fig.show()
+
