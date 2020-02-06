@@ -3,7 +3,7 @@ Collecting testDataset
 Collecting training, validation and test data
   Training set size = 190830
   Validation set size = 81784
-  Test set size = 7318
+  Test set size = 47674
 Preparing Numpy Arrays
   Feature tensor shape = (66, 3, 1)
 Creating Neural Network
@@ -26,33 +26,33 @@ Non-trainable params: 0
 _________________________________________________________________
 Train on 190830 samples, validate on 81784 samples
 Epoch 1/10
-190830/190830 - 12s - loss: 0.2891 - accuracy: 0.8791 - val_loss: 0.2649 - val_accuracy: 0.8896
+190830/190830 - 13s - loss: 0.2869 - accuracy: 0.8803 - val_loss: 0.2613 - val_accuracy: 0.8912
 Epoch 2/10
-190830/190830 - 12s - loss: 0.2657 - accuracy: 0.8898 - val_loss: 0.2558 - val_accuracy: 0.8944
+190830/190830 - 11s - loss: 0.2640 - accuracy: 0.8904 - val_loss: 0.2739 - val_accuracy: 0.8858
 Epoch 3/10
-190830/190830 - 12s - loss: 0.2610 - accuracy: 0.8920 - val_loss: 0.2523 - val_accuracy: 0.8939
+190830/190830 - 11s - loss: 0.2586 - accuracy: 0.8924 - val_loss: 0.2610 - val_accuracy: 0.8933
 Epoch 4/10
-190830/190830 - 12s - loss: 0.2564 - accuracy: 0.8935 - val_loss: 0.2486 - val_accuracy: 0.8964
+190830/190830 - 12s - loss: 0.2554 - accuracy: 0.8933 - val_loss: 0.2555 - val_accuracy: 0.8963
 Epoch 5/10
-190830/190830 - 12s - loss: 0.2535 - accuracy: 0.8935 - val_loss: 0.2442 - val_accuracy: 0.8972
+190830/190830 - 12s - loss: 0.2522 - accuracy: 0.8945 - val_loss: 0.2478 - val_accuracy: 0.8937
 Epoch 6/10
-190830/190830 - 12s - loss: 0.2509 - accuracy: 0.8942 - val_loss: 0.2412 - val_accuracy: 0.8970
+190830/190830 - 12s - loss: 0.2511 - accuracy: 0.8943 - val_loss: 0.2439 - val_accuracy: 0.8979
 Epoch 7/10
-190830/190830 - 14s - loss: 0.2484 - accuracy: 0.8948 - val_loss: 0.2458 - val_accuracy: 0.8963
+190830/190830 - 12s - loss: 0.2492 - accuracy: 0.8950 - val_loss: 0.2413 - val_accuracy: 0.8989
 Epoch 8/10
-190830/190830 - 12s - loss: 0.2477 - accuracy: 0.8948 - val_loss: 0.2660 - val_accuracy: 0.8872
+190830/190830 - 12s - loss: 0.2484 - accuracy: 0.8952 - val_loss: 0.2404 - val_accuracy: 0.8983
 Epoch 9/10
-190830/190830 - 13s - loss: 0.2453 - accuracy: 0.8956 - val_loss: 0.2434 - val_accuracy: 0.8986
+190830/190830 - 12s - loss: 0.2474 - accuracy: 0.8950 - val_loss: 0.2438 - val_accuracy: 0.8987
 Epoch 10/10
 
 Epoch 00010: saving model to neuralNetworkTraining/nn~0010.ckpt
-190830/190830 - 12s - loss: 0.2445 - accuracy: 0.8954 - val_loss: 0.2384 - val_accuracy: 0.9008
+190830/190830 - 12s - loss: 0.2459 - accuracy: 0.8957 - val_loss: 0.2379 - val_accuracy: 0.8998
 Checking test data
-  Found 7318 labels
-  Collected 7318 predictions
+  Found 47674 labels
+  Collected 47674 predictions
 	Pred. Neg	Pred. Pos
-Act. Neg	1172	37
-Act. Pos	548	5561
-Precision = 0.993390
-Recall = 0.910296
-F1 = 0.950030
+Act. Neg	31640	593
+Act. Pos	5075	10366
+Precision = 0.945889
+Recall = 0.671330
+F1 = 0.785303

@@ -19,8 +19,8 @@ from PathDataset import PathDataset
 ################################################################################
 datasetsFolder = "../../../datasets"
 strategy = 0
-testCircuitName = "aes"
-testCircuitDelay = 225
+testCircuitName = "dct"
+testCircuitDelay = 900
 trainCircuit = "pico-rv"
 epochs = 10
 dataTypeKey = "dataType"
@@ -126,7 +126,7 @@ model = tf.keras.models.Sequential()
 # model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Dense(8, activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))
-model.add(tf.keras.layers.Conv2D(16, (convFilterDim,convFilterDim), activation='sigmoid', input_shape=featureTensorShape))
+model.add(tf.keras.layers.Conv2D(32, (convFilterDim,convFilterDim), activation='sigmoid', input_shape=featureTensorShape))
 model.add(tf.keras.layers.Dropout(0.1))
 # model.add(tf.keras.layers.Conv2D(32, (3,3), activation='relu'))
 # model.add(tf.keras.layers.Dropout(0.1))

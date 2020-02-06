@@ -12,55 +12,47 @@ Model: "sequential"
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-conv2d (Conv2D)              (None, 56, 1, 16)         160       
+conv2d (Conv2D)              (None, 56, 1, 1)          10        
 _________________________________________________________________
-dropout (Dropout)            (None, 56, 1, 16)         0         
+dropout (Dropout)            (None, 56, 1, 1)          0         
 _________________________________________________________________
-flatten (Flatten)            (None, 896)               0         
+flatten (Flatten)            (None, 56)                0         
 _________________________________________________________________
-dense (Dense)                (None, 16)                14352     
-_________________________________________________________________
-dropout_1 (Dropout)          (None, 16)                0         
-_________________________________________________________________
-dense_1 (Dense)              (None, 16)                272       
-_________________________________________________________________
-dropout_2 (Dropout)          (None, 16)                0         
-_________________________________________________________________
-dense_2 (Dense)              (None, 1)                 17        
+dense (Dense)                (None, 1)                 57        
 =================================================================
-Total params: 14,801
-Trainable params: 14,801
+Total params: 67
+Trainable params: 67
 Non-trainable params: 0
 _________________________________________________________________
 Train on 114498 samples, validate on 49070 samples
 Epoch 1/10
-114498/114498 - 8s - loss: 0.4271 - accuracy: 0.8073 - val_loss: 0.3455 - val_accuracy: 0.8556
+114498/114498 - 6s - loss: 0.5022 - accuracy: 0.7518 - val_loss: 0.4351 - val_accuracy: 0.8054
 Epoch 2/10
-114498/114498 - 7s - loss: 0.3612 - accuracy: 0.8438 - val_loss: 0.3314 - val_accuracy: 0.8596
+114498/114498 - 5s - loss: 0.4483 - accuracy: 0.7923 - val_loss: 0.4227 - val_accuracy: 0.8133
 Epoch 3/10
-114498/114498 - 8s - loss: 0.3487 - accuracy: 0.8484 - val_loss: 0.3440 - val_accuracy: 0.8457
+114498/114498 - 6s - loss: 0.4395 - accuracy: 0.7981 - val_loss: 0.4148 - val_accuracy: 0.8193
 Epoch 4/10
-114498/114498 - 7s - loss: 0.3395 - accuracy: 0.8516 - val_loss: 0.3254 - val_accuracy: 0.8592
+114498/114498 - 6s - loss: 0.4358 - accuracy: 0.7997 - val_loss: 0.4126 - val_accuracy: 0.8162
 Epoch 5/10
-114498/114498 - 7s - loss: 0.3342 - accuracy: 0.8544 - val_loss: 0.3328 - val_accuracy: 0.8605
+114498/114498 - 5s - loss: 0.4337 - accuracy: 0.8017 - val_loss: 0.4106 - val_accuracy: 0.8168
 Epoch 6/10
-114498/114498 - 7s - loss: 0.3301 - accuracy: 0.8549 - val_loss: 0.3178 - val_accuracy: 0.8615
+114498/114498 - 5s - loss: 0.4312 - accuracy: 0.8029 - val_loss: 0.4133 - val_accuracy: 0.8170
 Epoch 7/10
-114498/114498 - 7s - loss: 0.3241 - accuracy: 0.8574 - val_loss: 0.3057 - val_accuracy: 0.8666
+114498/114498 - 6s - loss: 0.4296 - accuracy: 0.8031 - val_loss: 0.4073 - val_accuracy: 0.8182
 Epoch 8/10
-114498/114498 - 7s - loss: 0.3204 - accuracy: 0.8591 - val_loss: 0.2999 - val_accuracy: 0.8680
+114498/114498 - 5s - loss: 0.4285 - accuracy: 0.8058 - val_loss: 0.4078 - val_accuracy: 0.8181
 Epoch 9/10
-114498/114498 - 7s - loss: 0.3170 - accuracy: 0.8606 - val_loss: 0.3031 - val_accuracy: 0.8690
+114498/114498 - 6s - loss: 0.4282 - accuracy: 0.8049 - val_loss: 0.4057 - val_accuracy: 0.8202
 Epoch 10/10
 
 Epoch 00010: saving model to neuralNetworkTraining/nn~0010.ckpt
-114498/114498 - 7s - loss: 0.3141 - accuracy: 0.8610 - val_loss: 0.2979 - val_accuracy: 0.8692
+114498/114498 - 5s - loss: 0.4273 - accuracy: 0.8058 - val_loss: 0.4053 - val_accuracy: 0.8179
 Checking test data
   Found 7818 labels
   Collected 7818 predictions
 	Pred. Neg	Pred. Pos
-Act. Neg	1079	1
-Act. Pos	704	6034
-Precision = 0.999834
-Recall = 0.895518
-F1 = 0.944805
+Act. Neg	1080	0
+Act. Pos	839	5899
+Precision = 1.000000
+Recall = 0.875482
+F1 = 0.933608
