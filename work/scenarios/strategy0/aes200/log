@@ -37,3 +37,16 @@ Epoch 5/100
 190830/190830 - 12s - loss: 0.2801 - accuracy: 0.8833 - val_loss: 0.2682 - val_accuracy: 0.8905
 Epoch 6/100
 190830/190830 - 11s - loss: 0.2762 - accuracy: 0.8852 - val_loss: 0.2644 - val_accuracy: 0.8918
+Epoch 7/100
+190830/190830 - 11s - loss: 0.2741 - accuracy: 0.8856 - val_loss: 0.2680 - val_accuracy: 0.8883
+Epoch 8/100
+190830/190830 - 12s - loss: 0.2709 - accuracy: 0.8867 - val_loss: 0.2604 - val_accuracy: 0.8920
+Epoch 9/100
+190830/190830 - 13s - loss: 0.2691 - accuracy: 0.8879 - val_loss: 0.2582 - val_accuracy: 0.8939
+Epoch 10/100
+
+Epoch 00010: saving model to neuralNetworkTraining/nn~0010.ckpt
+190830/190830 - 13s - loss: 0.2674 - accuracy: 0.8886 - val_loss: 0.2512 - val_accuracy: 0.8936
+Epoch 11/100
+190830/190830 - 12s - loss: 0.2648 - accuracy: 0.8895 - val_loss: 0.2785 - val_accuracy: 0.8834
+Epoch 12/100
